@@ -1,0 +1,10 @@
+{
+  "name": "PromptAid AI",
+  "description": "Professional-grade prompt engineering studio for advanced image generation. Transform simple ideas into complex, layout-aware AI prompts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "AI Prompt Engineering",
+    "Visual Design",
+    "Content Creation"
+  ]
+}
