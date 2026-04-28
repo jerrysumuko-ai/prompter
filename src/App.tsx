@@ -65,7 +65,7 @@ export default function App() {
               </div>
               <h1 className="text-xl font-bold tracking-tighter uppercase">PromptAid AI</h1>
             </div>
-            <nav className="hidden lg:flex items-center gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
+            <nav className="hidden sm:flex items-center gap-4 md:gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
               <button
                 onClick={() => { setPage('studio'); setResult(null); }}
                 className={`transition-colors ${page === 'studio' ? 'text-zinc-100 hover:text-emerald-400' : 'hover:text-zinc-100'}`}
