@@ -184,7 +184,7 @@ export const GALLERY_IMAGES = [
     category: 'Branding'
   },
   {
-    url: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&q=80&w=800',
+    url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800',
     title: 'Neon Circuit',
     category: 'Tech'
   },
