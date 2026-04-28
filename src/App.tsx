@@ -10,10 +10,13 @@ import {
   Copy, 
   RefreshCcw, 
   Check,
-  ChevronRight
+  ChevronRight,
+  X
 } from 'lucide-react';
 import { PRESETS, GALLERY_IMAGES } from './constants';
 import * as GeminiService from './lib/gemini';
+
+type GalleryImage = (typeof GALLERY_IMAGES)[number];
 
 export default function App() {
   const [idea, setIdea] = useState('');
@@ -21,6 +24,7 @@ export default function App() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState<GeminiService.PromptResult | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
 
   const handleCopy = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
@@ -220,12 +224,14 @@ export default function App() {
                 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                   {GALLERY_IMAGES.map((img, idx) => (
-                    <motion.div
+                    <motion.button
+                      type="button"
+                      onClick={() => setActiveImage(img)}
                       key={idx}
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: idx * 0.05 }}
-                      className="group relative aspect-[3/4] overflow-hidden bg-zinc-900 border border-zinc-800 rounded-sm cursor-zoom-in"
+                      className="group relative aspect-[3/4] overflow-hidden bg-zinc-900 border border-zinc-800 rounded-sm cursor-zoom-in text-left focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                     >
                       <img 
                         src={img.url} 
@@ -239,7 +245,7 @@ export default function App() {
                       </div>
                       {/* Decorative corner */}
                       <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-white/20" />
-                    </motion.div>
+                    </motion.button>
                   ))}
                 </div>
               </section>
@@ -248,6 +254,73 @@ export default function App() {
           )}
         </AnimatePresence>
       </main>
+
+      <AnimatePresence>
+        {activeImage && (
+          <motion.div
+            key="image-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setActiveImage(null)}
+            className="fixed inset-0 z-[60] bg-zinc-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.97 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-zinc-950 border border-zinc-800 rounded-sm shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]"
+            >
+              <button
+                onClick={() => setActiveImage(null)}
+                aria-label="Close"
+                className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center bg-zinc-950/70 border border-zinc-800 hover:border-emerald-500/40 hover:text-emerald-400 text-zinc-300 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <div className="w-full aspect-[16/10] bg-zinc-900 overflow-hidden">
+                <img
+                  src={activeImage.url}
+                  alt={activeImage.title}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              <div className="p-6 sm:p-8 space-y-5">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="space-y-1">
+                    <div className="text-[9px] text-emerald-400 font-bold uppercase tracking-[0.3em]">
+                      {activeImage.category}
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
+                      {activeImage.title}
+                    </h3>
+                  </div>
+                  <button
+                    onClick={() => handleCopy(activeImage.prompt, 'modal')}
+                    className="shrink-0 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 text-zinc-500 hover:text-emerald-400 transition-colors"
+                  >
+                    {copied === 'modal' ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+                    {copied === 'modal' ? 'Copied' : 'Copy Prompt'}
+                  </button>
+                </div>
+
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-2">Engineered Prompt</p>
+                  <div className="p-5 bg-zinc-900 border border-zinc-800 text-xs font-mono leading-relaxed text-zinc-300 italic">
+                    "{activeImage.prompt}"
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <footer className="max-w-7xl mx-auto px-6 py-12 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
         <p className="text-zinc-600 text-[10px] uppercase tracking-[0.2em]">
