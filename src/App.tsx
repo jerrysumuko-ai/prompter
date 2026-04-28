@@ -72,8 +72,6 @@ export default function App() {
               >
                 Library
               </button>
-              <a href="#" className="hover:text-zinc-100 transition-colors">Generator</a>
-              <a href="#" className="hover:text-zinc-100 transition-colors">Showcase</a>
               <button
                 onClick={() => setPage('templates')}
                 className={`transition-colors ${page === 'templates' ? 'text-zinc-100 hover:text-emerald-400' : 'hover:text-zinc-100'}`}
