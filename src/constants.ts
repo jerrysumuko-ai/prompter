@@ -137,6 +137,66 @@ export const GALLERY_IMAGES = [
     url: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&q=80&w=800',
     title: 'Chromatic Flow',
     category: 'Branding'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1635776062764-e025521e3df3?auto=format&fit=crop&q=80&w=800',
+    title: 'Liquid Metal',
+    category: 'Artistic'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80&w=800',
+    title: 'Code Matrix',
+    category: 'Tech'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=80&w=800',
+    title: 'Orbital Launch',
+    category: 'Cinematic'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1618556450991-2f1af64e8191?auto=format&fit=crop&q=80&w=800',
+    title: 'Fractured Earth',
+    category: 'Texture'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1604079628040-94301bb21b91?auto=format&fit=crop&q=80&w=800',
+    title: 'Vapor Field',
+    category: 'Atmospheric'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1614849286521-4c58b2f0ff15?auto=format&fit=crop&q=80&w=800',
+    title: 'Geometric Pulse',
+    category: 'Abstract'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&q=80&w=800',
+    title: 'Studio Portrait',
+    category: 'Photo'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800',
+    title: 'Retro Console',
+    category: 'Game'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&q=80&w=800',
+    title: 'Liquid Chrome',
+    category: 'Branding'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&q=80&w=800',
+    title: 'Neon Circuit',
+    category: 'Tech'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&q=80&w=800',
+    title: 'Aurora Drift',
+    category: 'Atmospheric'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80&w=800',
+    title: 'Pastel Gradient',
+    category: 'Abstract'
   }
 ];
 
