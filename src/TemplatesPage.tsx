@@ -2,11 +2,9 @@ import { useState, type ComponentType } from 'react';
 import { motion } from 'motion/react';
 import {
   Search,
-  Sparkles,
   Video,
   Share2,
   Briefcase,
-  HelpCircle,
   ChevronRight,
   FileText,
   Image as ImageIcon,
@@ -20,70 +18,58 @@ import {
 } from 'lucide-react';
 
 const FILTERS = [
-  { id: 'video', label: 'Video', icon: Video, accent: 'bg-pink-500', text: 'text-pink-600' },
-  { id: 'social', label: 'Social media', icon: Share2, accent: 'bg-rose-500', text: 'text-rose-600' },
-  { id: 'business', label: 'Business', icon: Briefcase, accent: 'bg-teal-500', text: 'text-teal-600' },
+  { id: 'video', label: 'Video', icon: Video },
+  { id: 'social', label: 'Social media', icon: Share2 },
+  { id: 'business', label: 'Business', icon: Briefcase },
 ];
 
 type Template = {
   label: string;
-  bg: string;
   Icon: ComponentType<{ className?: string }>;
-  accent: string;
+  code: string;
 };
 
 const TEMPLATES: Template[] = [
-  { label: 'Presentation', bg: 'bg-orange-100', Icon: FileText, accent: 'text-orange-500' },
-  { label: 'Poster', bg: 'bg-purple-100', Icon: FileImage, accent: 'text-purple-500' },
-  { label: 'CV', bg: 'bg-violet-100', Icon: ImageIcon, accent: 'text-violet-500' },
-  { label: 'Email', bg: 'bg-indigo-100', Icon: Mail, accent: 'text-indigo-500' },
-  { label: 'Logo', bg: 'bg-amber-100', Icon: Hexagon, accent: 'text-amber-600' },
-  { label: 'Instagram Post', bg: 'bg-pink-100', Icon: Instagram, accent: 'text-pink-500' },
-  { label: 'Instagram Story', bg: 'bg-fuchsia-100', Icon: Instagram, accent: 'text-fuchsia-500' },
-  { label: 'Landscape Video', bg: 'bg-rose-100', Icon: Film, accent: 'text-rose-500' },
-  { label: 'Invitation', bg: 'bg-purple-100', Icon: MailOpen, accent: 'text-purple-500' },
-  { label: 'Mobile Video', bg: 'bg-violet-100', Icon: Smartphone, accent: 'text-violet-500' },
+  { label: 'Presentation', Icon: FileText, code: 'TPL_001' },
+  { label: 'Poster', Icon: FileImage, code: 'TPL_002' },
+  { label: 'CV', Icon: ImageIcon, code: 'TPL_003' },
+  { label: 'Email', Icon: Mail, code: 'TPL_004' },
+  { label: 'Logo', Icon: Hexagon, code: 'TPL_005' },
+  { label: 'Instagram Post', Icon: Instagram, code: 'TPL_006' },
+  { label: 'Instagram Story', Icon: Instagram, code: 'TPL_007' },
+  { label: 'Landscape Video', Icon: Film, code: 'TPL_008' },
+  { label: 'Invitation', Icon: MailOpen, code: 'TPL_009' },
+  { label: 'Mobile Video', Icon: Smartphone, code: 'TPL_010' },
 ];
 
 export default function TemplatesPage() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [query, setQuery] = useState('');
 
+  const filtered = TEMPLATES.filter((t) =>
+    t.label.toLowerCase().includes(query.toLowerCase()),
+  );
+
   return (
-    <div
-      className="relative min-h-[calc(100vh-73px)] overflow-hidden text-zinc-900"
-      style={{
-        background:
-          'linear-gradient(120deg, #c8f0e3 0%, #d8e6ff 30%, #e0d4ff 60%, #d6c4f5 100%)',
-      }}
-    >
-      {/* Soft highlights */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-60"
-        style={{
-          background:
-            'radial-gradient(circle at 90% 10%, rgba(255,255,255,0.6), transparent 40%), radial-gradient(circle at 10% 90%, rgba(255,255,255,0.5), transparent 45%)',
-        }}
-      />
+    <main className="max-w-7xl mx-auto px-6 py-12 text-zinc-300">
+      {/* Hero */}
+      <section className="space-y-8">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-1.5 h-6 bg-emerald-500" />
+            <h3 className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-400">
+              Template Foundry
+            </h3>
+          </div>
+          <div className="text-[9px] uppercase tracking-widest text-zinc-600 font-mono">
+            Catalog_v1.10
+          </div>
+        </div>
 
-      {/* Top right pills */}
-      <div className="absolute top-6 right-6 flex items-center gap-3 z-10">
-        <button className="flex items-center gap-2 px-4 py-2 bg-white/70 backdrop-blur-sm border border-white text-purple-600 rounded-full text-sm font-medium shadow-sm hover:bg-white transition">
-          <Sparkles className="w-4 h-4" />
-          Sneak Peek
-        </button>
-        <button className="flex items-center gap-2 px-4 py-2 bg-white border border-white text-zinc-800 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition">
-          <Sparkles className="w-4 h-4 text-amber-500" />
-          Start your trial for <span className="line-through text-zinc-400">$0</span>
-        </button>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-6 pt-20 pb-24">
-        {/* Heading */}
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center text-5xl font-semibold tracking-tight text-zinc-900"
+          className="text-center text-5xl md:text-6xl font-black tracking-tighter uppercase text-zinc-100"
         >
           Templates
         </motion.h1>
@@ -93,86 +79,107 @@ export default function TemplatesPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
-          className="mt-8 max-w-2xl mx-auto"
+          className="max-w-2xl mx-auto w-full"
         >
-          <div className="relative">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+          <div className="relative group">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-emerald-400 transition-colors" />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search millions of templates"
-              className="w-full bg-white rounded-full pl-14 pr-6 py-4 text-zinc-700 placeholder-zinc-400 border-2 border-purple-200 focus:outline-none focus:border-purple-400 shadow-[0_4px_20px_-8px_rgba(124,58,237,0.25)] transition"
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-sm pl-12 pr-6 py-4 text-xs font-mono text-zinc-300 placeholder-zinc-600 focus:outline-none focus:border-emerald-500/50 transition-all shadow-xl"
             />
+            <div className="absolute top-0 right-0 px-2 py-1 bg-zinc-800 text-[8px] uppercase font-bold text-zinc-500 tracking-widest border-b border-l border-zinc-700">
+              QUERY
+            </div>
           </div>
 
           {/* Filter pills */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
             {FILTERS.map((f) => {
               const isActive = activeFilter === f.id;
               return (
                 <button
                   key={f.id}
                   onClick={() => setActiveFilter(isActive ? null : f.id)}
-                  className={`flex items-center gap-2 pl-2 pr-5 py-1.5 rounded-full bg-white/80 backdrop-blur-sm border text-sm font-medium transition shadow-sm hover:shadow-md ${
-                    isActive ? 'border-purple-400 ring-2 ring-purple-200' : 'border-white'
+                  className={`flex items-center gap-2 px-4 py-2 border rounded-sm text-[10px] uppercase font-bold tracking-[0.2em] transition-all ${
+                    isActive
+                      ? 'border-emerald-500/60 bg-emerald-500/10 text-emerald-400'
+                      : 'border-zinc-800 bg-zinc-900/50 text-zinc-500 hover:text-zinc-200 hover:border-zinc-700'
                   }`}
                 >
-                  <span
-                    className={`w-7 h-7 rounded-full flex items-center justify-center ${f.accent} text-white`}
-                  >
-                    <f.icon className="w-3.5 h-3.5" />
-                  </span>
-                  <span className="text-zinc-800">{f.label}</span>
+                  <f.icon className="w-3.5 h-3.5" />
+                  {f.label}
                 </button>
               );
             })}
           </div>
         </motion.div>
+      </section>
 
-        {/* Explore templates */}
-        <div className="mt-16">
-          <h2 className="text-2xl font-semibold text-zinc-900 mb-6">Explore templates</h2>
-
-          <div className="relative">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {TEMPLATES.map((t, idx) => (
-                <motion.button
-                  key={t.label}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 + idx * 0.03 }}
-                  className={`relative h-24 rounded-2xl ${t.bg} px-4 py-3 flex items-start text-left overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all group`}
-                >
-                  <span className="text-sm font-semibold text-zinc-800 leading-tight max-w-[60%]">
-                    {t.label}
-                  </span>
-                  {/* Decorative illustration corner */}
-                  <div className="absolute -right-3 -bottom-3 w-20 h-20 rounded-2xl bg-white/70 rotate-[-8deg] flex items-center justify-center shadow-inner group-hover:rotate-0 transition-transform">
-                    <t.Icon className={`w-8 h-8 ${t.accent}`} />
-                  </div>
-                </motion.button>
-              ))}
-            </div>
-
-            {/* Right-side pagination arrow */}
-            <button
-              aria-label="Next"
-              className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-md items-center justify-center text-zinc-700 hover:text-purple-600 hover:shadow-lg transition"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
+      {/* Explore templates */}
+      <section className="mt-16 space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-1.5 h-6 bg-emerald-500" />
+            <h3 className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-400">
+              Explore Templates
+            </h3>
+          </div>
+          <div className="text-[9px] uppercase tracking-widest text-zinc-600 font-mono">
+            {filtered.length.toString().padStart(2, '0')} / {TEMPLATES.length.toString().padStart(2, '0')} Modules
           </div>
         </div>
-      </div>
 
-      {/* Floating help button */}
-      <button
-        aria-label="Help"
-        className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-purple-500 text-white shadow-lg hover:bg-purple-600 transition flex items-center justify-center"
-      >
-        <HelpCircle className="w-5 h-5" />
-      </button>
-    </div>
+        <div className="relative">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            {filtered.map((t, idx) => (
+              <motion.button
+                key={t.label}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: idx * 0.04 }}
+                className="group relative aspect-[4/3] bg-zinc-900 border border-zinc-800 rounded-sm p-4 flex flex-col justify-between text-left overflow-hidden hover:border-emerald-500/40 transition-all"
+              >
+                {/* Header label */}
+                <div className="flex items-start justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-tight text-zinc-200 leading-tight max-w-[70%] group-hover:text-emerald-400 transition-colors">
+                    {t.label}
+                  </span>
+                  <div className="text-[8px] uppercase font-mono text-zinc-600 tracking-widest">
+                    {t.code}
+                  </div>
+                </div>
+
+                {/* Icon block */}
+                <div className="self-end w-12 h-12 bg-zinc-950 border border-zinc-800 rounded-sm flex items-center justify-center group-hover:border-emerald-500/40 transition-colors">
+                  <t.Icon className="w-5 h-5 text-zinc-500 group-hover:text-emerald-400 transition-colors" />
+                </div>
+
+                {/* Decorative corner */}
+                <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-white/20" />
+                {/* Hover gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/0 via-emerald-500/0 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              </motion.button>
+            ))}
+          </div>
+
+          {/* Right-side pagination arrow */}
+          <button
+            aria-label="Next"
+            className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-zinc-900 border border-zinc-800 hover:border-emerald-500/50 hover:text-emerald-400 text-zinc-400 transition items-center justify-center rounded-sm"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        {filtered.length === 0 && (
+          <div className="text-center py-12 text-[10px] uppercase tracking-widest text-zinc-600 font-mono border border-dashed border-zinc-800 rounded-sm">
+            No modules match "{query}"
+          </div>
+        )}
+      </section>
+    </main>
   );
 }
