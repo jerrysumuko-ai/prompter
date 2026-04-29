@@ -336,7 +336,7 @@ export default function App() {
                 <button
                   onClick={() =>
                     handleCopy(
-                      `TITLE: ${activeImage.title}\nCATEGORY: ${activeImage.category}\nPROMPT: ${activeImage.prompt}`,
+                      'Large educational {TOPIC} infographic poster mounted in a modern gallery, titled "{MAIN_TITLE}", premium museum-style scientific wall chart design, detailed {MAIN_DIAGRAM} with labeled {ELEMENTS}, {SECTION_1}, {SECTION_2}, {SECTION_3}, {SECTION_4}, {SECTION_5}, {SECTION_6}, {SECTION_7}, realistic educational infographic layout, clean editorial typography, balanced grid composition, white background with black framing, high-detail {ILLUSTRATION_STYLE}, warm gallery spotlights, polished concrete museum floor, cinematic interior lighting, ultra realistic, sharp focus, professional exhibition photography, symmetrical front view, 8k.',
                       'template',
                     )
                   }
