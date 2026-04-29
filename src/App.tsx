@@ -57,15 +57,15 @@ export default function App() {
       </div>
 
       <header className="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-xl px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-8">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 sm:gap-6 lg:gap-8">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-emerald-500 rounded-sm rotate-45 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)]">
                 <div className="w-4 h-4 bg-zinc-950 rotate-45" />
               </div>
               <h1 className="text-xl font-bold tracking-tighter uppercase">PromptAid AI</h1>
             </div>
-            <nav className="hidden sm:flex items-center gap-4 md:gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
+            <nav className="flex items-center gap-3 sm:gap-4 md:gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
               <button
                 onClick={() => { setPage('studio'); setResult(null); }}
                 className={`transition-colors ${page === 'studio' ? 'text-zinc-100 hover:text-emerald-400' : 'hover:text-zinc-100'}`}
