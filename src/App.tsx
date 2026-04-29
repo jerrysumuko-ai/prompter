@@ -332,6 +332,23 @@ export default function App() {
                     "{activeImage.prompt}"
                   </div>
                 </div>
+
+                <button
+                  onClick={() =>
+                    handleCopy(
+                      `TITLE: ${activeImage.title}\nCATEGORY: ${activeImage.category}\nPROMPT: ${activeImage.prompt}`,
+                      'template',
+                    )
+                  }
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-emerald-500/40 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/70 transition-all text-[10px] uppercase font-bold tracking-[0.25em] rounded-sm"
+                >
+                  {copied === 'template' ? (
+                    <Check className="w-3.5 h-3.5" />
+                  ) : (
+                    <Copy className="w-3.5 h-3.5" />
+                  )}
+                  {copied === 'template' ? 'Template Copied' : 'Copy Template'}
+                </button>
               </div>
             </motion.div>
           </motion.div>
