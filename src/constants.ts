@@ -109,6 +109,13 @@ export const BLUEPRINTS = [
 
 export const GALLERY_IMAGES = [
   {
+    url: '/gallery/lumiere-magazine.png',
+    title: 'Lumière Summer Issue Cover',
+    category: 'Editorial',
+    prompt: 'Premium fashion magazine cover photo, masthead "LUMIÈRE" in tall thin all-caps serif across the top in soft white, small subtitle "FASHION · CULTURE · BEAUTY" beneath, issue line "SUMMER 2025 / ISSUE 01 of 8" right-aligned, full-bleed editorial portrait of a confident dark-haired woman in a deep red cap-sleeve wrap dress and a wide-brim straw hat with red band, leaning on a stone balustrade overlooking a Mediterranean coastline, soft midday light, shallow depth of field, cover lines "THE NEW CLASSIC — Timeless style. Modern spirit. Unmistakably her.", "RED REDEFINED — Bold, confident, and forever in vogue.", "BEYOND THE HORIZON — Chic escapes and the art of slow travel.", "LUMIÈRE EXCLUSIVE: AMELIA MOREAU — On elegance, intuition, and staying true to herself.", "SUN-KISSED BEAUTY — Effortless looks for golden days." set in elegant serif typography, oversized white serif words "the SUMMER ISSUE" anchored bottom-left, small barcode and "1 / 8" page indicator bottom corners, glossy print finish with subtle paper grain, hyper-realistic editorial photography, ultra-detailed 8k.',
+    template: 'Premium fashion magazine cover photo, masthead "{MAGAZINE_NAME}" in tall thin all-caps serif across the top in soft white, small subtitle "{TAGLINE}" beneath, issue line "{ISSUE_LINE}" right-aligned, full-bleed editorial portrait of {SUBJECT_DESCRIPTION} wearing {OUTFIT}, set against {LOCATION_BACKDROP}, soft {LIGHTING}, shallow depth of field, cover lines "{COVER_LINE_1}", "{COVER_LINE_2}", "{COVER_LINE_3}", "{EXCLUSIVE_INTERVIEW}", "{COVER_LINE_4}" set in elegant serif typography, oversized white serif words "{HERO_HEADLINE}" anchored bottom-left, small barcode and "{PAGE_INDICATOR}" page indicator bottom corners, glossy print finish with subtle paper grain, hyper-realistic editorial photography, ultra-detailed 8k.'
+  },
+  {
     url: '/gallery/japanese-snack-pouch.png',
     title: 'Takumi-no-Yado Senbei Pouch',
     category: 'Packaging',

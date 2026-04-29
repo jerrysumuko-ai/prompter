@@ -17,6 +17,7 @@ import {
   MailOpen,
   Smartphone,
   Package,
+  BookOpen,
   Plus,
   X,
 } from 'lucide-react';
@@ -134,6 +135,17 @@ const TEMPLATES: Template[] = [
     samples: [
       { title: 'Reel Template', subtitle: '9:16 · 30s', gradient: 'from-violet-900 via-purple-800 to-fuchsia-900' },
       { title: 'TikTok Short', subtitle: 'Vertical format', gradient: 'from-cyan-900 via-blue-800 to-indigo-900' },
+    ],
+  },
+  {
+    label: 'Magazine Cover',
+    Icon: BookOpen,
+    code: 'TPL_012',
+    samples: [
+      { title: 'Lumière Summer Issue', subtitle: 'Fashion · Cover 01/8', gradient: 'from-zinc-800 via-zinc-700 to-zinc-900', image: '/gallery/lumiere-magazine.png' },
+      { title: 'Tech Quarterly', subtitle: 'Future of AI · Q3', gradient: 'from-cyan-900 via-blue-800 to-indigo-900' },
+      { title: 'Wanderlust', subtitle: 'Travel Issue · Spring', gradient: 'from-amber-800 via-orange-700 to-rose-900' },
+      { title: 'Aperture', subtitle: 'Photography Edit · Mono', gradient: 'from-zinc-700 via-zinc-800 to-zinc-900' },
     ],
   },
   {
