@@ -333,22 +333,19 @@ export default function App() {
                   </div>
                 </div>
 
-                <button
-                  onClick={() =>
-                    handleCopy(
-                      'Large educational {TOPIC} infographic poster mounted in a modern gallery, titled "{MAIN_TITLE}", premium museum-style scientific wall chart design, detailed {MAIN_DIAGRAM} with labeled {ELEMENTS}, {SECTION_1}, {SECTION_2}, {SECTION_3}, {SECTION_4}, {SECTION_5}, {SECTION_6}, {SECTION_7}, realistic educational infographic layout, clean editorial typography, balanced grid composition, white background with black framing, high-detail {ILLUSTRATION_STYLE}, warm gallery spotlights, polished concrete museum floor, cinematic interior lighting, ultra realistic, sharp focus, professional exhibition photography, symmetrical front view, 8k.',
-                      'template',
-                    )
-                  }
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-emerald-500/40 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/70 transition-all text-[10px] uppercase font-bold tracking-[0.25em] rounded-sm"
-                >
-                  {copied === 'template' ? (
-                    <Check className="w-3.5 h-3.5" />
-                  ) : (
-                    <Copy className="w-3.5 h-3.5" />
-                  )}
-                  {copied === 'template' ? 'Template Copied' : 'Copy Template'}
-                </button>
+                {'template' in activeImage && activeImage.template && (
+                  <button
+                    onClick={() => handleCopy(activeImage.template as string, 'template')}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-emerald-500/40 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/70 transition-all text-[10px] uppercase font-bold tracking-[0.25em] rounded-sm"
+                  >
+                    {copied === 'template' ? (
+                      <Check className="w-3.5 h-3.5" />
+                    ) : (
+                      <Copy className="w-3.5 h-3.5" />
+                    )}
+                    {copied === 'template' ? 'Template Copied' : 'Copy Template'}
+                  </button>
+                )}
               </div>
             </motion.div>
           </motion.div>
