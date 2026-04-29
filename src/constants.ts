@@ -109,6 +109,13 @@ export const BLUEPRINTS = [
 
 export const GALLERY_IMAGES = [
   {
+    url: '/gallery/japanese-snack-pouch.png',
+    title: 'Takumi-no-Yado Senbei Pouch',
+    category: 'Packaging',
+    prompt: 'Studio product photograph of a stand-up Japanese snack pouch on a clean white background, navy blue and cream color blocking with a soft golden ribbon swoosh across the upper third, vertical kanji brand mark "ふっくら 匠の宿" in elegant brush calligraphy, supporting kanji subtitle "うす焼き塩味", small "国産米100%使用" badge in the top right, delicate ink-wash mountain illustration along the lower band, hero shot of a single golden-brown lightly-salted rice cracker (senbei) on a dark ceramic plate centered on the front, glossy resealable foil finish, soft directional studio key light from upper left, gentle shadow on white seamless backdrop, hyper-realistic packaging mockup, ultra sharp focus, 8k commercial product photography.',
+    template: 'Studio product photograph of a {PACKAGE_FORMAT} on a clean {BACKDROP} background, {PRIMARY_COLOR} and {SECONDARY_COLOR} color blocking with a {ACCENT_GRAPHIC} across the {ACCENT_PLACEMENT}, vertical {SCRIPT_STYLE} brand mark "{BRAND_NAME}" in elegant {TYPOGRAPHY_STYLE}, supporting subtitle "{SUBTITLE}", small "{BADGE_TEXT}" badge in the {BADGE_POSITION}, {ILLUSTRATION_MOTIF} along the lower band, hero shot of {HERO_PRODUCT} on a {HERO_SURFACE} centered on the front, {FINISH_TYPE} finish, soft directional studio key light from upper left, gentle shadow on seamless backdrop, hyper-realistic packaging mockup, ultra sharp focus, 8k commercial product photography.'
+  },
+  {
     url: '/gallery/chatgpt-patch.png',
     title: 'ChatGPT Images 2.0 Patch',
     category: 'Product Photo',

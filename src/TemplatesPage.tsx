@@ -16,6 +16,7 @@ import {
   Film,
   MailOpen,
   Smartphone,
+  Package,
   Plus,
   X,
 } from 'lucide-react';
@@ -133,6 +134,17 @@ const TEMPLATES: Template[] = [
     samples: [
       { title: 'Reel Template', subtitle: '9:16 · 30s', gradient: 'from-violet-900 via-purple-800 to-fuchsia-900' },
       { title: 'TikTok Short', subtitle: 'Vertical format', gradient: 'from-cyan-900 via-blue-800 to-indigo-900' },
+    ],
+  },
+  {
+    label: 'Packaging',
+    Icon: Package,
+    code: 'TPL_011',
+    samples: [
+      { title: 'Senbei Snack Pouch', subtitle: 'Japanese · Stand-up Bag', gradient: 'from-zinc-800 via-zinc-700 to-zinc-900', image: '/gallery/japanese-snack-pouch.png' },
+      { title: 'Cosmetic Tube', subtitle: 'Skincare · Minimal', gradient: 'from-rose-900 via-pink-800 to-zinc-900' },
+      { title: 'Coffee Bag', subtitle: 'Specialty roast · Kraft', gradient: 'from-amber-900 via-orange-800 to-zinc-900' },
+      { title: 'Beverage Can', subtitle: 'Craft soda · 330ml', gradient: 'from-emerald-900 via-teal-800 to-zinc-900' },
     ],
   },
 ];
