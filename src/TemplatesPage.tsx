@@ -18,6 +18,7 @@ import {
   Smartphone,
   Package,
   BookOpen,
+  Newspaper,
   Plus,
   X,
 } from 'lucide-react';
@@ -135,6 +136,17 @@ const TEMPLATES: Template[] = [
     samples: [
       { title: 'Reel Template', subtitle: '9:16 · 30s', gradient: 'from-violet-900 via-purple-800 to-fuchsia-900' },
       { title: 'TikTok Short', subtitle: 'Vertical format', gradient: 'from-cyan-900 via-blue-800 to-indigo-900' },
+    ],
+  },
+  {
+    label: 'Editorial Spread',
+    Icon: Newspaper,
+    code: 'TPL_013',
+    samples: [
+      { title: 'Coastal Elegance', subtitle: 'Travel Feature · Page 7/8', gradient: 'from-zinc-800 via-zinc-700 to-zinc-900', image: '/gallery/lumiere-spread.png' },
+      { title: 'The Beauty Edit', subtitle: 'Skincare Feature · 12pp', gradient: 'from-rose-900 via-pink-800 to-zinc-900' },
+      { title: 'Founder Profile', subtitle: 'Long-form Q&A', gradient: 'from-zinc-800 via-amber-900 to-zinc-900' },
+      { title: 'Interior Story', subtitle: 'Architecture · Photo essay', gradient: 'from-emerald-900 via-zinc-800 to-zinc-900' },
     ],
   },
   {

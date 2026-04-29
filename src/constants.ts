@@ -109,6 +109,13 @@ export const BLUEPRINTS = [
 
 export const GALLERY_IMAGES = [
   {
+    url: '/gallery/lumiere-spread.png',
+    title: 'Lumière Coastal Elegance Spread',
+    category: 'Editorial',
+    prompt: 'Full-bleed fashion magazine inside spread, kicker label "TRAVEL IN STYLE" in small all-caps tracking, oversized two-tone serif headline "COASTAL" in white and "ELEGANCE" in burnt orange stacked at top left, slim italic deck "Where timeless meets tomorrow.", short body paragraph "From sunlit mornings to golden hour escapes, summer dressing is an ode to calm confidence and effortless grace.", large decorative quotation marks above pull-quote "Style is not about trends. It\'s about presence." in serif italic, supporting body paragraph closing with the line "With her signature poise and modern feminine spirit, Amelia Moreau embodies a new classic for the contemporary woman.", full-bleed editorial portrait on the right of a confident dark-haired woman in a deep red cap-sleeve wrap dress with belted waist, wide-brim straw hat with red band, white opera gloves, leaning on an Amalfi-coast stone balustrade with white florals and Mediterranean cliffs in the background, soft midday light with shallow depth of field, footer line "LUMIÈRE SUMMER 2025" bottom-left and "7 / 8" page number bottom-right in fine serif type, glossy print finish with subtle paper grain, hyper-realistic editorial photography, ultra-detailed 8k.',
+    template: 'Full-bleed fashion magazine inside spread, kicker label "{KICKER}" in small all-caps tracking, oversized two-tone serif headline "{HEADLINE_LINE_1}" in {HEADLINE_COLOR_1} and "{HEADLINE_LINE_2}" in {HEADLINE_COLOR_2} stacked at top left, slim italic deck "{DECK}", short body paragraph "{INTRO_PARAGRAPH}", large decorative quotation marks above pull-quote "{PULL_QUOTE}" in serif italic, supporting body paragraph "{CLOSING_PARAGRAPH}", full-bleed editorial portrait on the right of {SUBJECT_DESCRIPTION} wearing {OUTFIT}, set against {LOCATION_BACKDROP}, soft {LIGHTING} with shallow depth of field, footer line "{MAGAZINE_FOOTER}" bottom-left and "{PAGE_NUMBER}" page number bottom-right in fine serif type, glossy print finish with subtle paper grain, hyper-realistic editorial photography, ultra-detailed 8k.'
+  },
+  {
     url: '/gallery/lumiere-magazine.png',
     title: 'Lumière Summer Issue Cover',
     category: 'Editorial',
