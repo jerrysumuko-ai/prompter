@@ -26,11 +26,13 @@ const FILTERS = [
   { id: 'business', label: 'Business', icon: Briefcase },
 ];
 
+type Sample = { title: string; subtitle: string; gradient: string; image?: string };
+
 type Template = {
   label: string;
   Icon: ComponentType<{ className?: string }>;
   code: string;
-  samples: { title: string; subtitle: string; gradient: string }[];
+  samples: Sample[];
 };
 
 const TEMPLATES: Template[] = [
@@ -53,6 +55,7 @@ const TEMPLATES: Template[] = [
     Icon: FileImage,
     code: 'TPL_002',
     samples: [
+      { title: 'Astronomy & Solar System', subtitle: 'Educational · Museum Print', gradient: 'from-zinc-800 via-zinc-700 to-zinc-900', image: '/gallery/astronomy-solar-system.png' },
       { title: 'Festival Night', subtitle: 'Music Event · 18+', gradient: 'from-fuchsia-900 via-purple-800 to-zinc-900' },
       { title: 'Gallery Opening', subtitle: 'Modern Art · Spring', gradient: 'from-zinc-700 via-zinc-800 to-zinc-900' },
       { title: 'Conference 2026', subtitle: 'Tech & Culture Summit', gradient: 'from-blue-900 via-indigo-800 to-violet-900' },
@@ -281,9 +284,19 @@ export default function TemplatesPage() {
                   transition={{ delay: idx * 0.04 }}
                   className="group relative aspect-[16/10] rounded-sm overflow-hidden border border-zinc-800 hover:border-emerald-500/40 transition-all text-left"
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${s.gradient}`} />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.15),transparent_60%)]" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/20 to-transparent" />
+                  {s.image ? (
+                    <img
+                      src={s.image}
+                      alt={s.title}
+                      className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+                    />
+                  ) : (
+                    <>
+                      <div className={`absolute inset-0 bg-gradient-to-br ${s.gradient}`} />
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.15),transparent_60%)]" />
+                    </>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/95 via-zinc-950/30 to-transparent" />
 
                   {/* Decorative elements mimicking a poster */}
                   <div className="absolute top-4 right-4 w-3 h-3 bg-emerald-400/80" />

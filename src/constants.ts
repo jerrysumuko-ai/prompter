@@ -109,6 +109,12 @@ export const BLUEPRINTS = [
 
 export const GALLERY_IMAGES = [
   {
+    url: '/gallery/astronomy-solar-system.png',
+    title: 'Astronomy & The Solar System',
+    category: 'Infographic',
+    prompt: 'Museum-grade educational infographic poster titled "Astronomy & The Solar System — Our Place in Space", framed and mounted on a gallery wall, ivory background with classic serif headline, structured panels for Solar System diagram, Types of Celestial Bodies (star, planet, moon, dwarf planet, asteroid, comet, meteor, meteorite), Planetary Data table, Size Comparison, The Moons, Phases of the Moon, Eclipses, Comets & Asteroids, Observing the Universe (telescopes), Scale of Distances, Exoplanets, The Milky Way, and Quick Facts with QR code. Photorealistic planet renders, fine typography, soft museum lighting, ultra-detailed 8k.'
+  },
+  {
     url: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80&w=800',
     title: 'Abstract Synthesis',
     category: 'Artistic',
