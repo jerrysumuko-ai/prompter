@@ -85,6 +85,7 @@ const TEMPLATES: Template[] = [
     Icon: Hexagon,
     code: 'TPL_005',
     samples: [
+      { title: 'Embroidered Patch', subtitle: 'Fabric Brand Mark', gradient: 'from-zinc-800 via-zinc-700 to-zinc-900', image: '/gallery/chatgpt-patch.png' },
       { title: 'Geometric Mark', subtitle: 'Hexagonal monogram', gradient: 'from-amber-800 via-zinc-800 to-zinc-900' },
       { title: 'Wordmark', subtitle: 'Custom typography', gradient: 'from-zinc-800 via-zinc-700 to-zinc-900' },
     ],

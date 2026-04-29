@@ -109,6 +109,12 @@ export const BLUEPRINTS = [
 
 export const GALLERY_IMAGES = [
   {
+    url: '/gallery/chatgpt-patch.png',
+    title: 'ChatGPT Images 2.0 Patch',
+    category: 'Product Photo',
+    prompt: 'Macro product photograph of an embroidered fabric patch with rounded corners, navy blue stitched border on a cream linen background, bold serif text reading "ChatGPT Images 2.0" in deep navy embroidery thread, tactile cotton thread texture with visible stitch direction, resting on an olive green woven canvas surface, soft directional studio light, shallow depth of field, hyper-realistic textile material, ultra sharp focus, 8k product photography.'
+  },
+  {
     url: '/gallery/astronomy-solar-system.png',
     title: 'Astronomy & The Solar System',
     category: 'Infographic',
