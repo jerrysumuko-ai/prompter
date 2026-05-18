@@ -239,13 +239,6 @@ export default function App() {
                      {/* Sign out */}
                      <div className="border-t border-zinc-800 py-1">
                        <button
-                         onClick={() => { setProfileOpen(false); setPage('signup'); }}
-                         className="w-full flex items-center gap-3 px-4 py-2.5 text-zinc-400 hover:text-emerald-400 hover:bg-zinc-800 transition-colors group"
-                       >
-                         <User size={13} className="text-zinc-600 group-hover:text-emerald-500 transition-colors" />
-                         <span className="text-[10px] font-bold uppercase tracking-widest">Create Account</span>
-                       </button>
-                       <button
                          onClick={() => setProfileOpen(false)}
                          className="w-full flex items-center gap-3 px-4 py-2.5 text-zinc-500 hover:text-rose-400 hover:bg-zinc-800 transition-colors group"
                        >
