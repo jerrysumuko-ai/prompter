@@ -19,10 +19,13 @@ import {
   Bell,
   ImageIcon,
   Layers,
+  Share2,
+  Users,
 } from 'lucide-react';
 import { PRESETS, GALLERY_IMAGES } from './constants';
 import * as GeminiService from './lib/gemini';
 import TemplatesPage from './TemplatesPage';
+import ShareModal, { type CommunityEntry } from './ShareModal';
 
 type GalleryImage = (typeof GALLERY_IMAGES)[number];
 type Page = 'studio' | 'templates';
@@ -33,10 +36,21 @@ export default function App() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState<GeminiService.PromptResult | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
-  const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
+  const [activeImage, setActiveImage] = useState<GalleryImage | CommunityEntry | null>(null);
   const [page, setPage] = useState<Page>('studio');
   const [profileOpen, setProfileOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [communityEntries, setCommunityEntries] = useState<CommunityEntry[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('promptaid_community') || '[]');
+    } catch {
+      return [];
+    }
+  });
   const profileRef = useRef<HTMLDivElement>(null);
+
+  type AnyGalleryImage = GalleryImage | CommunityEntry;
+  const allGalleryImages: AnyGalleryImage[] = [...communityEntries, ...GALLERY_IMAGES];
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -318,6 +332,13 @@ export default function App() {
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                       Optimized for Advanced Models
                     </div>
+                    <button
+                      onClick={() => setShareOpen(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-zinc-700 hover:border-emerald-500/60 hover:text-emerald-400 text-zinc-400 transition-all text-[10px] font-bold uppercase tracking-widest"
+                    >
+                      <Share2 size={12} />
+                      Share to Library
+                    </button>
                   </div>
                 </div>
               </div>
@@ -341,30 +362,40 @@ export default function App() {
                 </div>
                 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-                  {GALLERY_IMAGES.map((img, idx) => (
-                    <motion.button
-                      type="button"
-                      onClick={() => setActiveImage(img)}
-                      key={idx}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: idx * 0.05 }}
-                      className="group relative aspect-[3/4] overflow-hidden bg-zinc-900 border border-zinc-800 rounded-sm cursor-zoom-in text-left focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
-                    >
-                      <img 
-                        src={img.url} 
-                        alt={img.title}
-                        className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end">
-                        <div className="text-[8px] text-emerald-400 font-bold uppercase tracking-widest mb-1">{img.category}</div>
-                        <div className="text-[10px] text-white font-bold tracking-tight uppercase truncate">{img.title}</div>
-                      </div>
-                      {/* Decorative corner */}
-                      <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-white/20" />
-                    </motion.button>
-                  ))}
+                  {allGalleryImages.map((img, idx) => {
+                    const isCommunity = 'isCommunity' in img;
+                    return (
+                      <motion.button
+                        type="button"
+                        onClick={() => setActiveImage(img)}
+                        key={idx}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: Math.min(idx * 0.05, 0.4) }}
+                        className="group relative aspect-[3/4] overflow-hidden bg-zinc-900 border border-zinc-800 rounded-sm cursor-zoom-in text-left focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                      >
+                        <img
+                          src={img.url}
+                          alt={img.title}
+                          className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end">
+                          <div className="text-[8px] text-emerald-400 font-bold uppercase tracking-widest mb-1">{img.category}</div>
+                          <div className="text-[10px] text-white font-bold tracking-tight uppercase truncate">{img.title}</div>
+                        </div>
+                        {/* Community badge */}
+                        {isCommunity && (
+                          <div className="absolute top-2 left-2 flex items-center gap-1 bg-zinc-950/80 border border-emerald-500/40 px-1.5 py-0.5">
+                            <Users size={8} className="text-emerald-400" />
+                            <span className="text-[7px] text-emerald-400 font-bold uppercase tracking-widest">Community</span>
+                          </div>
+                        )}
+                        {/* Decorative corner */}
+                        <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-white/20" />
+                      </motion.button>
+                    );
+                  })}
                 </div>
               </section>
 
@@ -372,6 +403,16 @@ export default function App() {
           )}
         </AnimatePresence>
       </main>
+
+      <AnimatePresence>
+        {shareOpen && result && (
+          <ShareModal
+            prompt={result.enhancedPrompt}
+            onClose={() => setShareOpen(false)}
+            onShared={(entry) => setCommunityEntries((prev) => [entry, ...prev])}
+          />
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {activeImage && (
