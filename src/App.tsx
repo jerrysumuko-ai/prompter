@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Sparkles, 
@@ -11,7 +11,14 @@ import {
   RefreshCcw, 
   Check,
   ChevronRight,
-  X
+  X,
+  Settings,
+  LogOut,
+  User,
+  HelpCircle,
+  Bell,
+  ImageIcon,
+  Layers,
 } from 'lucide-react';
 import { PRESETS, GALLERY_IMAGES } from './constants';
 import * as GeminiService from './lib/gemini';
@@ -28,6 +35,18 @@ export default function App() {
   const [copied, setCopied] = useState<string | null>(null);
   const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
   const [page, setPage] = useState<Page>('studio');
+  const [profileOpen, setProfileOpen] = useState(false);
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
 
   const handleCopy = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
@@ -84,14 +103,91 @@ export default function App() {
              <div className="hidden sm:block px-3 py-1 bg-zinc-900 border border-zinc-800 text-[10px] uppercase tracking-tighter text-emerald-500 font-mono">
                 System: Stable
              </div>
-             <div className="flex items-center gap-2 cursor-pointer group">
-               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.35)] group-hover:shadow-[0_0_18px_rgba(16,185,129,0.5)] transition-shadow">
-                 <span className="text-[11px] font-black text-zinc-950 uppercase tracking-tight select-none">A</span>
-               </div>
-               <div className="hidden sm:flex flex-col leading-none">
-                 <span className="text-[10px] font-bold text-zinc-100 uppercase tracking-widest">Alex</span>
-                 <span className="text-[9px] text-emerald-500 font-mono uppercase tracking-widest">Studio Plan</span>
-               </div>
+             <div className="relative" ref={profileRef}>
+               <button
+                 onClick={() => setProfileOpen(o => !o)}
+                 className="flex items-center gap-2 cursor-pointer group focus:outline-none"
+               >
+                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.35)] group-hover:shadow-[0_0_18px_rgba(16,185,129,0.5)] transition-shadow">
+                   <span className="text-[11px] font-black text-zinc-950 uppercase tracking-tight select-none">A</span>
+                 </div>
+                 <div className="hidden sm:flex flex-col leading-none">
+                   <span className="text-[10px] font-bold text-zinc-100 uppercase tracking-widest">Alex</span>
+                   <span className="text-[9px] text-emerald-500 font-mono uppercase tracking-widest">Studio Plan</span>
+                 </div>
+               </button>
+
+               <AnimatePresence>
+                 {profileOpen && (
+                   <motion.div
+                     initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                     animate={{ opacity: 1, y: 0, scale: 1 }}
+                     exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                     transition={{ duration: 0.15 }}
+                     className="absolute right-0 top-12 w-64 bg-zinc-900 border border-zinc-800 shadow-2xl shadow-black/60 z-50"
+                   >
+                     {/* Profile header */}
+                     <div className="px-4 py-4 border-b border-zinc-800 flex items-center gap-3">
+                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center shadow-[0_0_14px_rgba(16,185,129,0.4)] shrink-0">
+                         <span className="text-sm font-black text-zinc-950 uppercase">A</span>
+                       </div>
+                       <div className="flex flex-col leading-tight">
+                         <span className="text-[11px] font-bold text-zinc-100 uppercase tracking-widest">Alex Morgan</span>
+                         <span className="text-[10px] text-zinc-500 font-mono">alex@studio.io</span>
+                         <span className="mt-1 text-[9px] text-emerald-500 font-mono uppercase tracking-widest bg-emerald-500/10 px-1.5 py-0.5 w-fit">Studio Plan</span>
+                       </div>
+                     </div>
+
+                     {/* Stats */}
+                     <div className="grid grid-cols-2 gap-px bg-zinc-800 border-b border-zinc-800">
+                       <div className="bg-zinc-900 px-4 py-3 flex flex-col gap-0.5">
+                         <div className="flex items-center gap-1.5 text-zinc-500">
+                           <ImageIcon size={10} />
+                           <span className="text-[9px] uppercase tracking-widest">Prompts</span>
+                         </div>
+                         <span className="text-base font-black text-zinc-100">142</span>
+                       </div>
+                       <div className="bg-zinc-900 px-4 py-3 flex flex-col gap-0.5">
+                         <div className="flex items-center gap-1.5 text-zinc-500">
+                           <Layers size={10} />
+                           <span className="text-[9px] uppercase tracking-widest">Templates</span>
+                         </div>
+                         <span className="text-base font-black text-zinc-100">28</span>
+                       </div>
+                     </div>
+
+                     {/* Menu items */}
+                     <div className="py-1">
+                       {[
+                         { icon: User, label: 'Edit Profile' },
+                         { icon: Bell, label: 'Notifications' },
+                         { icon: Settings, label: 'Settings' },
+                         { icon: HelpCircle, label: 'Help & Support' },
+                       ].map(({ icon: Icon, label }) => (
+                         <button
+                           key={label}
+                           onClick={() => setProfileOpen(false)}
+                           className="w-full flex items-center gap-3 px-4 py-2.5 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors group"
+                         >
+                           <Icon size={13} className="text-zinc-600 group-hover:text-emerald-500 transition-colors" />
+                           <span className="text-[10px] font-bold uppercase tracking-widest">{label}</span>
+                         </button>
+                       ))}
+                     </div>
+
+                     {/* Sign out */}
+                     <div className="border-t border-zinc-800 py-1">
+                       <button
+                         onClick={() => setProfileOpen(false)}
+                         className="w-full flex items-center gap-3 px-4 py-2.5 text-zinc-500 hover:text-rose-400 hover:bg-zinc-800 transition-colors group"
+                       >
+                         <LogOut size={13} className="group-hover:text-rose-400 transition-colors" />
+                         <span className="text-[10px] font-bold uppercase tracking-widest">Sign Out</span>
+                       </button>
+                     </div>
+                   </motion.div>
+                 )}
+               </AnimatePresence>
              </div>
           </div>
         </div>
