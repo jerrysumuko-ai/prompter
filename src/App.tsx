@@ -30,9 +30,10 @@ import * as GeminiService from './lib/gemini';
 import TemplatesPage from './TemplatesPage';
 import ShareModal, { type CommunityEntry } from './ShareModal';
 import CommunityPage from './CommunityPage';
+import SignUpPage from './SignUpPage';
 
 type GalleryImage = (typeof GALLERY_IMAGES)[number];
-type Page = 'studio' | 'templates' | 'community';
+type Page = 'studio' | 'templates' | 'community' | 'signup';
 
 export default function App() {
   const [idea, setIdea] = useState('');
@@ -105,6 +106,15 @@ export default function App() {
     setResult(res);
     setIsGenerating(false);
   };
+
+  if (page === 'signup') {
+    return (
+      <SignUpPage
+        onSignIn={() => setPage('studio')}
+        onSuccess={() => setPage('studio')}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen font-sans selection:bg-emerald-500/30 bg-zinc-950 text-zinc-100">
@@ -228,6 +238,13 @@ export default function App() {
 
                      {/* Sign out */}
                      <div className="border-t border-zinc-800 py-1">
+                       <button
+                         onClick={() => { setProfileOpen(false); setPage('signup'); }}
+                         className="w-full flex items-center gap-3 px-4 py-2.5 text-zinc-400 hover:text-emerald-400 hover:bg-zinc-800 transition-colors group"
+                       >
+                         <User size={13} className="text-zinc-600 group-hover:text-emerald-500 transition-colors" />
+                         <span className="text-[10px] font-bold uppercase tracking-widest">Create Account</span>
+                       </button>
                        <button
                          onClick={() => setProfileOpen(false)}
                          className="w-full flex items-center gap-3 px-4 py-2.5 text-zinc-500 hover:text-rose-400 hover:bg-zinc-800 transition-colors group"
