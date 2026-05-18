@@ -21,6 +21,8 @@ import {
   Layers,
   Share2,
   Users,
+  Bookmark,
+  BookmarkCheck,
 } from 'lucide-react';
 import { PRESETS, GALLERY_IMAGES } from './constants';
 import * as GeminiService from './lib/gemini';
@@ -48,10 +50,29 @@ export default function App() {
       return [];
     }
   });
+  const [savedUrls, setSavedUrls] = useState<Set<string>>(() => {
+    try {
+      return new Set(JSON.parse(localStorage.getItem('promptaid_saved') || '[]'));
+    } catch {
+      return new Set();
+    }
+  });
   const profileRef = useRef<HTMLDivElement>(null);
 
   type AnyGalleryImage = GalleryImage | CommunityEntry;
   const allGalleryImages: AnyGalleryImage[] = [...communityEntries, ...GALLERY_IMAGES];
+  const savedImages = allGalleryImages.filter((img) => savedUrls.has(img.url));
+
+  const toggleSave = (url: string, e?: { stopPropagation: () => void }) => {
+    e?.stopPropagation();
+    setSavedUrls((prev) => {
+      const next = new Set(prev);
+      if (next.has(url)) next.delete(url);
+      else next.add(url);
+      localStorage.setItem('promptaid_saved', JSON.stringify([...next]));
+      return next;
+    });
+  };
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -364,6 +385,64 @@ export default function App() {
               exit={{ opacity: 0 }}
               className="space-y-12"
             >
+              {/* Saved Prompts */}
+              <AnimatePresence>
+                {savedImages.length > 0 && (
+                  <motion.section
+                    key="saved"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="space-y-4"
+                  >
+                    <div className="flex items-center gap-3">
+                      <BookmarkCheck size={14} className="text-emerald-500" />
+                      <h3 className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-400">
+                        Saved Prompts
+                      </h3>
+                      <span className="text-[9px] font-mono text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5">
+                        {savedImages.length}
+                      </span>
+                    </div>
+                    <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                      {savedImages.map((img, idx) => (
+                        <motion.div
+                          key={idx}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: idx * 0.04 }}
+                          className="relative shrink-0 w-32 aspect-[3/4] group"
+                        >
+                          <button
+                            type="button"
+                            onClick={() => setActiveImage(img)}
+                            className="w-full h-full overflow-hidden bg-zinc-900 border border-emerald-500/30 rounded-sm cursor-zoom-in focus:outline-none"
+                          >
+                            <img
+                              src={img.url}
+                              alt={img.title}
+                              className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
+                              referrerPolicy="no-referrer"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-2 flex flex-col justify-end">
+                              <div className="text-[7px] text-white font-bold uppercase truncate">{img.title}</div>
+                            </div>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => toggleSave(img.url, e)}
+                            className="absolute top-1.5 right-1.5 w-5 h-5 flex items-center justify-center text-emerald-400 hover:text-rose-400 transition-colors"
+                          >
+                            <BookmarkCheck size={11} />
+                          </button>
+                        </motion.div>
+                      ))}
+                    </div>
+                    <div className="border-t border-zinc-900" />
+                  </motion.section>
+                )}
+              </AnimatePresence>
+
               {/* Image Showcase Gallery */}
               <section className="space-y-6">
                 <div className="flex items-center justify-between">
@@ -378,14 +457,16 @@ export default function App() {
                   {allGalleryImages.map((img, idx) => {
                     const isCommunity = 'isCommunity' in img;
                     return (
-                      <motion.button
-                        type="button"
-                        onClick={() => setActiveImage(img)}
+                      <motion.div
                         key={idx}
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: Math.min(idx * 0.05, 0.4) }}
-                        className="group relative aspect-[3/4] overflow-hidden bg-zinc-900 border border-zinc-800 rounded-sm cursor-zoom-in text-left focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                        className="group relative aspect-[3/4] overflow-hidden bg-zinc-900 border border-zinc-800 rounded-sm cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                        onClick={() => setActiveImage(img)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => e.key === 'Enter' && setActiveImage(img)}
                       >
                         <img
                           src={img.url}
@@ -404,9 +485,22 @@ export default function App() {
                             <span className="text-[7px] text-emerald-400 font-bold uppercase tracking-widest">Community</span>
                           </div>
                         )}
-                        {/* Decorative corner */}
-                        <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-white/20" />
-                      </motion.button>
+                        {/* Bookmark button */}
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); toggleSave(img.url); }}
+                          className={`absolute top-2 right-2 w-6 h-6 flex items-center justify-center transition-all
+                            ${savedUrls.has(img.url)
+                              ? 'text-emerald-400 opacity-100'
+                              : 'text-white/40 opacity-0 group-hover:opacity-100 hover:text-emerald-400'
+                            }`}
+                        >
+                          {savedUrls.has(img.url)
+                            ? <BookmarkCheck size={13} />
+                            : <Bookmark size={13} />
+                          }
+                        </button>
+                      </motion.div>
                     );
                   })}
                 </div>
@@ -473,13 +567,30 @@ export default function App() {
                       {activeImage.title}
                     </h3>
                   </div>
-                  <button
-                    onClick={() => handleCopy(activeImage.prompt, 'modal')}
-                    className="shrink-0 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 text-zinc-500 hover:text-emerald-400 transition-colors"
-                  >
-                    {copied === 'modal' ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
-                    {copied === 'modal' ? 'Copied' : 'Copy Prompt'}
-                  </button>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <button
+                      onClick={() => toggleSave(activeImage.url)}
+                      className={`text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 transition-colors ${
+                        savedUrls.has(activeImage.url)
+                          ? 'text-emerald-400'
+                          : 'text-zinc-500 hover:text-emerald-400'
+                      }`}
+                    >
+                      {savedUrls.has(activeImage.url)
+                        ? <BookmarkCheck className="w-3.5 h-3.5" />
+                        : <Bookmark className="w-3.5 h-3.5" />
+                      }
+                      {savedUrls.has(activeImage.url) ? 'Saved' : 'Save'}
+                    </button>
+                    <div className="w-px h-4 bg-zinc-800" />
+                    <button
+                      onClick={() => handleCopy(activeImage.prompt, 'modal')}
+                      className="text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 text-zinc-500 hover:text-emerald-400 transition-colors"
+                    >
+                      {copied === 'modal' ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+                      {copied === 'modal' ? 'Copied' : 'Copy Prompt'}
+                    </button>
+                  </div>
                 </div>
 
                 <div>
