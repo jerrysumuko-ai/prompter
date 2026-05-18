@@ -494,11 +494,17 @@ export default function App() {
                             Remix
                           </button>
                         </div>
-                        {/* Community badge */}
-                        {isCommunity && (
-                          <div className="absolute top-2 left-2 flex items-center gap-1 bg-zinc-950/80 border border-emerald-500/40 px-1.5 py-0.5">
-                            <Users size={8} className="text-emerald-400" />
-                            <span className="text-[7px] text-emerald-400 font-bold uppercase tracking-widest">Community</span>
+                        {/* Author chip for community tiles */}
+                        {isCommunity && 'author' in img && (
+                          <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-zinc-950/85 border border-zinc-700/60 px-1.5 py-1">
+                            <div className="w-4 h-4 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center shrink-0">
+                              <span className="text-[7px] font-black text-zinc-950 uppercase">
+                                {(img.author as string)[0]}
+                              </span>
+                            </div>
+                            <span className="text-[7px] text-zinc-300 font-bold uppercase tracking-widest truncate max-w-[56px]">
+                              {(img.author as string).split(' ')[0]}
+                            </span>
                           </div>
                         )}
                         {/* Bookmark button */}
@@ -616,6 +622,31 @@ export default function App() {
                     </button>
                   </div>
                 </div>
+
+                {/* Author profile — community entries only */}
+                {'author' in activeImage && (
+                  <div className="flex items-center gap-3 py-3 px-4 bg-zinc-900/60 border border-zinc-800">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center shadow-[0_0_10px_rgba(16,185,129,0.3)] shrink-0">
+                      <span className="text-[11px] font-black text-zinc-950 uppercase">
+                        {(activeImage.author as string)[0]}
+                      </span>
+                    </div>
+                    <div className="flex flex-col leading-tight">
+                      <span className="text-[11px] font-bold text-zinc-100 uppercase tracking-widest">
+                        {activeImage.author as string}
+                      </span>
+                      <span className="text-[9px] text-zinc-500 font-mono">
+                        {'sharedAt' in activeImage
+                          ? `Shared ${new Date(activeImage.sharedAt as number).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+                          : 'Community Member'}
+                      </span>
+                    </div>
+                    <div className="ml-auto flex items-center gap-1 bg-emerald-500/10 border border-emerald-500/20 px-2 py-1">
+                      <Users size={9} className="text-emerald-500" />
+                      <span className="text-[8px] text-emerald-500 font-bold uppercase tracking-widest">Community</span>
+                    </div>
+                  </div>
+                )}
 
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-2">Engineered Prompt</p>
