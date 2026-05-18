@@ -26,9 +26,10 @@ import { PRESETS, GALLERY_IMAGES } from './constants';
 import * as GeminiService from './lib/gemini';
 import TemplatesPage from './TemplatesPage';
 import ShareModal, { type CommunityEntry } from './ShareModal';
+import CommunityPage from './CommunityPage';
 
 type GalleryImage = (typeof GALLERY_IMAGES)[number];
-type Page = 'studio' | 'templates';
+type Page = 'studio' | 'templates' | 'community';
 
 export default function App() {
   const [idea, setIdea] = useState('');
@@ -110,6 +111,13 @@ export default function App() {
                 className={`transition-colors ${page === 'templates' ? 'text-zinc-100 hover:text-emerald-400' : 'hover:text-zinc-100'}`}
               >
                 Templates
+              </button>
+              <button
+                onClick={() => setPage('community')}
+                className={`transition-colors flex items-center gap-1.5 ${page === 'community' ? 'text-emerald-400' : 'hover:text-zinc-100'}`}
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                Add Prompt
               </button>
             </nav>
           </div>
@@ -209,6 +217,11 @@ export default function App() {
 
       {page === 'templates' ? (
         <TemplatesPage />
+      ) : page === 'community' ? (
+        <CommunityPage
+          onSubmitted={(entry) => setCommunityEntries((prev) => [entry, ...prev])}
+          onGoToLibrary={() => { setPage('studio'); setResult(null); }}
+        />
       ) : (
       <>
       <main className="max-w-7xl mx-auto px-6 py-12">
