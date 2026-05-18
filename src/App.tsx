@@ -23,6 +23,7 @@ import {
   Users,
   Bookmark,
   BookmarkCheck,
+  Shuffle,
 } from 'lucide-react';
 import { PRESETS, GALLERY_IMAGES } from './constants';
 import * as GeminiService from './lib/gemini';
@@ -88,6 +89,13 @@ export default function App() {
     navigator.clipboard.writeText(text);
     setCopied(type);
     setTimeout(() => setCopied(null), 2000);
+  };
+
+  const handleRemix = (prompt: string) => {
+    setIdea(prompt);
+    setActiveImage(null);
+    setResult(null);
+    setPage('studio');
   };
 
   const onGenerate = async () => {
@@ -474,9 +482,17 @@ export default function App() {
                           className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0"
                           referrerPolicy="no-referrer"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end">
-                          <div className="text-[8px] text-emerald-400 font-bold uppercase tracking-widest mb-1">{img.category}</div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-end gap-1.5">
+                          <div className="text-[8px] text-emerald-400 font-bold uppercase tracking-widest">{img.category}</div>
                           <div className="text-[10px] text-white font-bold tracking-tight uppercase truncate">{img.title}</div>
+                          <button
+                            type="button"
+                            onClick={(e) => { e.stopPropagation(); handleRemix(img.prompt); }}
+                            className="mt-1 flex items-center gap-1 text-[8px] font-black uppercase tracking-widest text-zinc-950 bg-emerald-400 hover:bg-emerald-300 px-2 py-1 w-fit transition-colors"
+                          >
+                            <Shuffle size={9} />
+                            Remix
+                          </button>
                         </div>
                         {/* Community badge */}
                         {isCommunity && (
@@ -568,6 +584,14 @@ export default function App() {
                     </h3>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
+                    <button
+                      onClick={() => handleRemix(activeImage.prompt)}
+                      className="text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 text-zinc-500 hover:text-emerald-400 transition-colors"
+                    >
+                      <Shuffle className="w-3.5 h-3.5" />
+                      Remix
+                    </button>
+                    <div className="w-px h-4 bg-zinc-800" />
                     <button
                       onClick={() => toggleSave(activeImage.url)}
                       className={`text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 transition-colors ${
