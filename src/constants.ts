@@ -109,34 +109,147 @@ export const BLUEPRINTS = [
 
 export const GALLERY_IMAGES = [
   {
+    url: '/gallery/lumiere-spread.png',
+    title: 'Lumière Coastal Elegance Spread',
+    category: 'Editorial',
+    prompt: 'Full-bleed fashion magazine inside spread, kicker label "TRAVEL IN STYLE" in small all-caps tracking, oversized two-tone serif headline "COASTAL" in white and "ELEGANCE" in burnt orange stacked at top left, slim italic deck "Where timeless meets tomorrow.", short body paragraph "From sunlit mornings to golden hour escapes, summer dressing is an ode to calm confidence and effortless grace.", large decorative quotation marks above pull-quote "Style is not about trends. It\'s about presence." in serif italic, supporting body paragraph closing with the line "With her signature poise and modern feminine spirit, Amelia Moreau embodies a new classic for the contemporary woman.", full-bleed editorial portrait on the right of a confident dark-haired woman in a deep red cap-sleeve wrap dress with belted waist, wide-brim straw hat with red band, white opera gloves, leaning on an Amalfi-coast stone balustrade with white florals and Mediterranean cliffs in the background, soft midday light with shallow depth of field, footer line "LUMIÈRE SUMMER 2025" bottom-left and "7 / 8" page number bottom-right in fine serif type, glossy print finish with subtle paper grain, hyper-realistic editorial photography, ultra-detailed 8k.',
+    template: 'Full-bleed fashion magazine inside spread, kicker label "{KICKER}" in small all-caps tracking, oversized two-tone serif headline "{HEADLINE_LINE_1}" in {HEADLINE_COLOR_1} and "{HEADLINE_LINE_2}" in {HEADLINE_COLOR_2} stacked at top left, slim italic deck "{DECK}", short body paragraph "{INTRO_PARAGRAPH}", large decorative quotation marks above pull-quote "{PULL_QUOTE}" in serif italic, supporting body paragraph "{CLOSING_PARAGRAPH}", full-bleed editorial portrait on the right of {SUBJECT_DESCRIPTION} wearing {OUTFIT}, set against {LOCATION_BACKDROP}, soft {LIGHTING} with shallow depth of field, footer line "{MAGAZINE_FOOTER}" bottom-left and "{PAGE_NUMBER}" page number bottom-right in fine serif type, glossy print finish with subtle paper grain, hyper-realistic editorial photography, ultra-detailed 8k.'
+  },
+  {
+    url: '/gallery/lumiere-magazine.png',
+    title: 'Lumière Summer Issue Cover',
+    category: 'Editorial',
+    prompt: 'Premium fashion magazine cover photo, masthead "LUMIÈRE" in tall thin all-caps serif across the top in soft white, small subtitle "FASHION · CULTURE · BEAUTY" beneath, issue line "SUMMER 2025 / ISSUE 01 of 8" right-aligned, full-bleed editorial portrait of a confident dark-haired woman in a deep red cap-sleeve wrap dress and a wide-brim straw hat with red band, leaning on a stone balustrade overlooking a Mediterranean coastline, soft midday light, shallow depth of field, cover lines "THE NEW CLASSIC — Timeless style. Modern spirit. Unmistakably her.", "RED REDEFINED — Bold, confident, and forever in vogue.", "BEYOND THE HORIZON — Chic escapes and the art of slow travel.", "LUMIÈRE EXCLUSIVE: AMELIA MOREAU — On elegance, intuition, and staying true to herself.", "SUN-KISSED BEAUTY — Effortless looks for golden days." set in elegant serif typography, oversized white serif words "the SUMMER ISSUE" anchored bottom-left, small barcode and "1 / 8" page indicator bottom corners, glossy print finish with subtle paper grain, hyper-realistic editorial photography, ultra-detailed 8k.',
+    template: 'Premium fashion magazine cover photo, masthead "{MAGAZINE_NAME}" in tall thin all-caps serif across the top in soft white, small subtitle "{TAGLINE}" beneath, issue line "{ISSUE_LINE}" right-aligned, full-bleed editorial portrait of {SUBJECT_DESCRIPTION} wearing {OUTFIT}, set against {LOCATION_BACKDROP}, soft {LIGHTING}, shallow depth of field, cover lines "{COVER_LINE_1}", "{COVER_LINE_2}", "{COVER_LINE_3}", "{EXCLUSIVE_INTERVIEW}", "{COVER_LINE_4}" set in elegant serif typography, oversized white serif words "{HERO_HEADLINE}" anchored bottom-left, small barcode and "{PAGE_INDICATOR}" page indicator bottom corners, glossy print finish with subtle paper grain, hyper-realistic editorial photography, ultra-detailed 8k.'
+  },
+  {
+    url: '/gallery/japanese-snack-pouch.png',
+    title: 'Takumi-no-Yado Senbei Pouch',
+    category: 'Packaging',
+    prompt: 'Studio product photograph of a stand-up Japanese snack pouch on a clean white background, navy blue and cream color blocking with a soft golden ribbon swoosh across the upper third, vertical kanji brand mark "ふっくら 匠の宿" in elegant brush calligraphy, supporting kanji subtitle "うす焼き塩味", small "国産米100%使用" badge in the top right, delicate ink-wash mountain illustration along the lower band, hero shot of a single golden-brown lightly-salted rice cracker (senbei) on a dark ceramic plate centered on the front, glossy resealable foil finish, soft directional studio key light from upper left, gentle shadow on white seamless backdrop, hyper-realistic packaging mockup, ultra sharp focus, 8k commercial product photography.',
+    template: 'Studio product photograph of a {PACKAGE_FORMAT} on a clean {BACKDROP} background, {PRIMARY_COLOR} and {SECONDARY_COLOR} color blocking with a {ACCENT_GRAPHIC} across the {ACCENT_PLACEMENT}, vertical {SCRIPT_STYLE} brand mark "{BRAND_NAME}" in elegant {TYPOGRAPHY_STYLE}, supporting subtitle "{SUBTITLE}", small "{BADGE_TEXT}" badge in the {BADGE_POSITION}, {ILLUSTRATION_MOTIF} along the lower band, hero shot of {HERO_PRODUCT} on a {HERO_SURFACE} centered on the front, {FINISH_TYPE} finish, soft directional studio key light from upper left, gentle shadow on seamless backdrop, hyper-realistic packaging mockup, ultra sharp focus, 8k commercial product photography.'
+  },
+  {
+    url: '/gallery/chatgpt-patch.png',
+    title: 'ChatGPT Images 2.0 Patch',
+    category: 'Product Photo',
+    prompt: 'Macro product photograph of an embroidered fabric patch with rounded corners, navy blue stitched border on a cream linen background, bold serif text reading "ChatGPT Images 2.0" in deep navy embroidery thread, tactile cotton thread texture with visible stitch direction, resting on an olive green woven canvas surface, soft directional studio light, shallow depth of field, hyper-realistic textile material, ultra sharp focus, 8k product photography.',
+    template: 'Macro product photograph of an embroidered fabric patch with {PATCH_SHAPE}, {BORDER_COLOR} stitched border on a {FABRIC_BACKGROUND} background, bold {FONT_STYLE} text reading "{MAIN_TEXT}" in {TEXT_THREAD_COLOR} embroidery thread, tactile cotton thread texture with visible stitch direction, resting on a {SURFACE_MATERIAL} surface, soft directional studio light, shallow depth of field, hyper-realistic textile material, ultra sharp focus, 8k product photography.'
+  },
+  {
+    url: '/gallery/astronomy-solar-system.png',
+    title: 'Astronomy & The Solar System',
+    category: 'Infographic',
+    prompt: 'Museum-grade educational infographic poster titled "Astronomy & The Solar System — Our Place in Space", framed and mounted on a gallery wall, ivory background with classic serif headline, structured panels for Solar System diagram, Types of Celestial Bodies (star, planet, moon, dwarf planet, asteroid, comet, meteor, meteorite), Planetary Data table, Size Comparison, The Moons, Phases of the Moon, Eclipses, Comets & Asteroids, Observing the Universe (telescopes), Scale of Distances, Exoplanets, The Milky Way, and Quick Facts with QR code. Photorealistic planet renders, fine typography, soft museum lighting, ultra-detailed 8k.',
+    template: 'Large educational {TOPIC} infographic poster mounted in a modern gallery, titled "{MAIN_TITLE}", premium museum-style scientific wall chart design, detailed {MAIN_DIAGRAM} with labeled {ELEMENTS}, {SECTION_1}, {SECTION_2}, {SECTION_3}, {SECTION_4}, {SECTION_5}, {SECTION_6}, {SECTION_7}, realistic educational infographic layout, clean editorial typography, balanced grid composition, white background with black framing, high-detail {ILLUSTRATION_STYLE}, warm gallery spotlights, polished concrete museum floor, cinematic interior lighting, ultra realistic, sharp focus, professional exhibition photography, symmetrical front view, 8k.'
+  },
+  {
     url: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80&w=800',
     title: 'Abstract Synthesis',
-    category: 'Artistic'
+    category: 'Artistic',
+    prompt: 'Abstract organic synthesis, swirling translucent emerald and obsidian fluids suspended in zero-gravity, soft volumetric light, depth of field, ultra-detailed macro render, cinematic 4k.'
   },
   {
     url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800',
     title: 'Cyberpunk District',
-    category: 'Cinematic'
+    category: 'Cinematic',
+    prompt: 'Rain-soaked cyberpunk alley at night, towering neon billboards in violet and teal, holographic signage, reflective puddles, dense atmospheric fog, shot on 35mm anamorphic, f/1.4, Blade Runner aesthetic.'
   },
   {
     url: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=800',
     title: 'Neural Finance UI',
-    category: 'UI/UX'
+    category: 'UI/UX',
+    prompt: 'High-fidelity dashboard UI for an AI-driven finance platform, dark mode zinc background, emerald data accents, modular bento grid layout, crisp Inter typography, soft glass cards, 8k Figma-style render.'
   },
   {
     url: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=800',
     title: 'Organic Architecture',
-    category: 'Photo'
+    category: 'Photo',
+    prompt: 'Editorial architectural photography of a flowing organic concrete pavilion at golden hour, sweeping curves, dramatic shadows, brutalist meets biomorphic, shot on Phase One XF, neutral color grading.'
   },
   {
     url: 'https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?auto=format&fit=crop&q=80&w=800',
     title: 'Isometric Lab',
-    category: 'Isometric'
+    category: 'Isometric',
+    prompt: 'Isometric 3D illustration of a futuristic research laboratory, holographic displays, glowing emerald accents, modular workstations, soft global illumination, low-poly clay aesthetic, render at 8k.'
   },
   {
     url: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&q=80&w=800',
     title: 'Chromatic Flow',
-    category: 'Branding'
+    category: 'Branding',
+    prompt: 'Sweeping gradient brand poster, smooth chromatic transitions of magenta, cyan and lime, layered depth, subtle film grain, oversized geometric type, Swiss design influence, ultra-clean composition.'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1635776062764-e025521e3df3?auto=format&fit=crop&q=80&w=800',
+    title: 'Liquid Metal',
+    category: 'Artistic',
+    prompt: 'Macro shot of liquid mercury forming an abstract sculpture, mirror-finish reflections of an emerald studio HDRI, ultra-glossy specular highlights, shallow depth of field, octane render quality.'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80&w=800',
+    title: 'Code Matrix',
+    category: 'Tech',
+    prompt: 'Over-the-shoulder cinematic shot of a developer workstation at night, cascading code on multiple monitors, soft bokeh of city lights through window, dark moody color grading, 35mm lens.'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=80&w=800',
+    title: 'Orbital Launch',
+    category: 'Cinematic',
+    prompt: 'Heroic launch of a heavy rocket clearing the gantry tower, billowing exhaust plumes, sun lens flare, low telephoto compression, hyperreal NASA documentary style, ultra-high dynamic range.'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1618556450991-2f1af64e8191?auto=format&fit=crop&q=80&w=800',
+    title: 'Fractured Earth',
+    category: 'Texture',
+    prompt: 'Tight macro of cracked desert earth with mineral pigments running through fissures, painterly textures, high contrast natural lighting, organic abstract composition, 8k photographic detail.'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1604079628040-94301bb21b91?auto=format&fit=crop&q=80&w=800',
+    title: 'Vapor Field',
+    category: 'Atmospheric',
+    prompt: 'Vast misty mountain valley at dawn, dense low-lying vapor diffusing soft sunlight, layered silhouettes of distant ridges, muted monochrome palette, fine art landscape photography.'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1614849286521-4c58b2f0ff15?auto=format&fit=crop&q=80&w=800',
+    title: 'Geometric Pulse',
+    category: 'Abstract',
+    prompt: 'Looping geometric abstract animation frame, concentric emerald rings pulsing on obsidian, perfect radial symmetry, sharp vector edges, subtle motion blur, suprematist influence.'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&q=80&w=800',
+    title: 'Studio Portrait',
+    category: 'Photo',
+    prompt: 'Editorial studio portrait, single key light from camera left, Rembrandt lighting, charcoal seamless backdrop, sharp catchlights, shot on 85mm f/1.4, neutral skin grading, Vogue aesthetic.'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800',
+    title: 'Retro Console',
+    category: 'Game',
+    prompt: 'Top-down product photography of a retro gaming console with cartridge inserted, soft rim lighting, deep navy backdrop, 90s color palette, nostalgic editorial styling, sharp macro detail.'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&q=80&w=800',
+    title: 'Liquid Chrome',
+    category: 'Branding',
+    prompt: 'Hyperreal 3D rendering of a chrome typographic logotype, liquid metal flowing into letterforms, studio softbox reflections, glossy emerald floor, octane render, oversized hero composition.'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800',
+    title: 'Neon Circuit',
+    category: 'Tech',
+    prompt: 'Macro photograph of a printed circuit board glowing under neon UV light, intricate copper traces and emerald solder mask, microchips with reflective contacts, ultra-sharp detail, futuristic tech aesthetic.'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&q=80&w=800',
+    title: 'Aurora Drift',
+    category: 'Atmospheric',
+    prompt: 'Long exposure of an aurora borealis dancing above a snow-covered mountain range, vivid emerald and magenta ribbons, mirrored reflection in a frozen lake, astrophotography, 14mm wide lens.'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80&w=800',
+    title: 'Pastel Gradient',
+    category: 'Abstract',
+    prompt: 'Soft pastel gradient composition, peach blending into mint and lavender, gentle gaussian falloff, faint film grain, minimalist editorial poster style, balanced negative space.'
   }
 ];
 

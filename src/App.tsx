@@ -3,29 +3,50 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Sparkles, 
-  Layout, 
-  Hash, 
   Copy, 
   RefreshCcw, 
   Check,
   ChevronRight,
-  Maximize2,
-  Terminal
+  X,
+  Settings,
+  LogOut,
+  User,
+  HelpCircle,
+  Bell,
+  ImageIcon,
+  Layers,
 } from 'lucide-react';
-import { CATEGORIES, PRESETS, BLUEPRINTS, GALLERY_IMAGES } from './constants';
+import { PRESETS, GALLERY_IMAGES } from './constants';
 import * as GeminiService from './lib/gemini';
+import TemplatesPage from './TemplatesPage';
+
+type GalleryImage = (typeof GALLERY_IMAGES)[number];
+type Page = 'studio' | 'templates';
 
 export default function App() {
   const [idea, setIdea] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory] = useState('all');
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState<GeminiService.PromptResult | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
+  const [page, setPage] = useState<Page>('studio');
+  const [profileOpen, setProfileOpen] = useState(false);
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
 
   const handleCopy = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
@@ -41,25 +62,6 @@ export default function App() {
     setIsGenerating(false);
   };
 
-  const useBlueprint = (bp: typeof BLUEPRINTS[0]) => {
-    setIdea(bp.fullPrompt);
-    setResult({
-      title: bp.title,
-      enhancedPrompt: bp.fullPrompt,
-      layoutDescription: bp.layout,
-      technicalSpecs: bp.tech
-    });
-    // Add small delay to allow scroll if needed, but smooth scroll is better
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const filteredBlueprints = BLUEPRINTS.filter(bp => {
-    const matchesCategory = selectedCategory === 'all' || bp.category === selectedCategory;
-    const matchesSearch = bp.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         bp.preview.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-
   return (
     <div className="min-h-screen font-sans selection:bg-emerald-500/30 bg-zinc-950 text-zinc-100">
       {/* Background Decor */}
@@ -74,31 +76,127 @@ export default function App() {
       </div>
 
       <header className="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-xl px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-8">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 sm:gap-6 lg:gap-8">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-emerald-500 rounded-sm rotate-45 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)]">
                 <div className="w-4 h-4 bg-zinc-950 rotate-45" />
               </div>
               <h1 className="text-xl font-bold tracking-tighter uppercase">PromptAid AI</h1>
             </div>
-            <nav className="hidden lg:flex items-center gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
-              <button onClick={() => {setResult(null); setSelectedCategory('all');}} className="text-zinc-100 hover:text-emerald-400 transition-colors">Library</button>
-              <a href="#" className="hover:text-zinc-100 transition-colors">Generator</a>
-              <a href="#" className="hover:text-zinc-100 transition-colors">Showcase</a>
+            <nav className="flex items-center gap-3 sm:gap-4 md:gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
+              <button
+                onClick={() => { setPage('studio'); setResult(null); }}
+                className={`transition-colors ${page === 'studio' ? 'text-zinc-100 hover:text-emerald-400' : 'hover:text-zinc-100'}`}
+              >
+                Library
+              </button>
+              <button
+                onClick={() => setPage('templates')}
+                className={`transition-colors ${page === 'templates' ? 'text-zinc-100 hover:text-emerald-400' : 'hover:text-zinc-100'}`}
+              >
+                Templates
+              </button>
             </nav>
           </div>
           <div className="flex items-center gap-4">
              <div className="hidden sm:block px-3 py-1 bg-zinc-900 border border-zinc-800 text-[10px] uppercase tracking-tighter text-emerald-500 font-mono">
                 System: Stable
              </div>
-             <button className="bg-zinc-100 text-zinc-950 px-5 py-2 font-black uppercase tracking-widest text-[10px] hover:bg-emerald-400 transition-colors">
-                Go Pro
-             </button>
+             <div className="relative" ref={profileRef}>
+               <button
+                 onClick={() => setProfileOpen(o => !o)}
+                 className="flex items-center gap-2 cursor-pointer group focus:outline-none"
+               >
+                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.35)] group-hover:shadow-[0_0_18px_rgba(16,185,129,0.5)] transition-shadow">
+                   <span className="text-[11px] font-black text-zinc-950 uppercase tracking-tight select-none">A</span>
+                 </div>
+                 <div className="hidden sm:flex flex-col leading-none">
+                   <span className="text-[10px] font-bold text-zinc-100 uppercase tracking-widest">Alex</span>
+                   <span className="text-[9px] text-emerald-500 font-mono uppercase tracking-widest">Studio Plan</span>
+                 </div>
+               </button>
+
+               <AnimatePresence>
+                 {profileOpen && (
+                   <motion.div
+                     initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                     animate={{ opacity: 1, y: 0, scale: 1 }}
+                     exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                     transition={{ duration: 0.15 }}
+                     className="absolute right-0 top-12 w-64 bg-zinc-900 border border-zinc-800 shadow-2xl shadow-black/60 z-50"
+                   >
+                     {/* Profile header */}
+                     <div className="px-4 py-4 border-b border-zinc-800 flex items-center gap-3">
+                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center shadow-[0_0_14px_rgba(16,185,129,0.4)] shrink-0">
+                         <span className="text-sm font-black text-zinc-950 uppercase">A</span>
+                       </div>
+                       <div className="flex flex-col leading-tight">
+                         <span className="text-[11px] font-bold text-zinc-100 uppercase tracking-widest">Alex Morgan</span>
+                         <span className="text-[10px] text-zinc-500 font-mono">alex@studio.io</span>
+                         <span className="mt-1 text-[9px] text-emerald-500 font-mono uppercase tracking-widest bg-emerald-500/10 px-1.5 py-0.5 w-fit">Studio Plan</span>
+                       </div>
+                     </div>
+
+                     {/* Stats */}
+                     <div className="grid grid-cols-2 gap-px bg-zinc-800 border-b border-zinc-800">
+                       <div className="bg-zinc-900 px-4 py-3 flex flex-col gap-0.5">
+                         <div className="flex items-center gap-1.5 text-zinc-500">
+                           <ImageIcon size={10} />
+                           <span className="text-[9px] uppercase tracking-widest">Prompts</span>
+                         </div>
+                         <span className="text-base font-black text-zinc-100">142</span>
+                       </div>
+                       <div className="bg-zinc-900 px-4 py-3 flex flex-col gap-0.5">
+                         <div className="flex items-center gap-1.5 text-zinc-500">
+                           <Layers size={10} />
+                           <span className="text-[9px] uppercase tracking-widest">Templates</span>
+                         </div>
+                         <span className="text-base font-black text-zinc-100">28</span>
+                       </div>
+                     </div>
+
+                     {/* Menu items */}
+                     <div className="py-1">
+                       {[
+                         { icon: User, label: 'Edit Profile' },
+                         { icon: Bell, label: 'Notifications' },
+                         { icon: Settings, label: 'Settings' },
+                         { icon: HelpCircle, label: 'Help & Support' },
+                       ].map(({ icon: Icon, label }) => (
+                         <button
+                           key={label}
+                           onClick={() => setProfileOpen(false)}
+                           className="w-full flex items-center gap-3 px-4 py-2.5 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors group"
+                         >
+                           <Icon size={13} className="text-zinc-600 group-hover:text-emerald-500 transition-colors" />
+                           <span className="text-[10px] font-bold uppercase tracking-widest">{label}</span>
+                         </button>
+                       ))}
+                     </div>
+
+                     {/* Sign out */}
+                     <div className="border-t border-zinc-800 py-1">
+                       <button
+                         onClick={() => setProfileOpen(false)}
+                         className="w-full flex items-center gap-3 px-4 py-2.5 text-zinc-500 hover:text-rose-400 hover:bg-zinc-800 transition-colors group"
+                       >
+                         <LogOut size={13} className="group-hover:text-rose-400 transition-colors" />
+                         <span className="text-[10px] font-bold uppercase tracking-widest">Sign Out</span>
+                       </button>
+                     </div>
+                   </motion.div>
+                 )}
+               </AnimatePresence>
+             </div>
           </div>
         </div>
       </header>
 
+      {page === 'templates' ? (
+        <TemplatesPage />
+      ) : (
+      <>
       <main className="max-w-7xl mx-auto px-6 py-12">
         <AnimatePresence mode="wait">
           {result ? (
@@ -244,12 +342,14 @@ export default function App() {
                 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                   {GALLERY_IMAGES.map((img, idx) => (
-                    <motion.div
+                    <motion.button
+                      type="button"
+                      onClick={() => setActiveImage(img)}
                       key={idx}
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: idx * 0.05 }}
-                      className="group relative aspect-[3/4] overflow-hidden bg-zinc-900 border border-zinc-800 rounded-sm cursor-zoom-in"
+                      className="group relative aspect-[3/4] overflow-hidden bg-zinc-900 border border-zinc-800 rounded-sm cursor-zoom-in text-left focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                     >
                       <img 
                         src={img.url} 
@@ -263,113 +363,96 @@ export default function App() {
                       </div>
                       {/* Decorative corner */}
                       <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-white/20" />
-                    </motion.div>
+                    </motion.button>
                   ))}
                 </div>
               </section>
 
-              {/* Library Hero */}
-              <div className="text-center space-y-4 max-w-3xl mx-auto py-8">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 text-[10px] font-bold uppercase tracking-widest">
-                  <Sparkles className="w-3 h-3" />
-                  Blueprint Discovery
-                </div>
-                <h2 className="text-6xl font-light tracking-tighter leading-tight italic">
-                  Visual <span className="text-emerald-400 not-italic font-bold uppercase">Blueprint Hub.</span>
-                </h2>
-                <p className="text-zinc-500 text-lg max-w-xl mx-auto">
-                  Browse or filter our collection of professionally engineered prompts. One click to synthesize.
-                </p>
-              </div>
-
-              {/* Filters & Search */}
-              <div className="flex flex-col md:flex-row gap-6 items-center justify-between bg-zinc-900/30 border border-zinc-900 p-6 rounded-sm backdrop-blur-sm">
-                <div className="flex flex-wrap items-center justify-center gap-3">
-                  <button 
-                    onClick={() => setSelectedCategory('all')}
-                    className={`px-4 py-2 text-[10px] font-bold uppercase tracking-widest border transition-all ${selectedCategory === 'all' ? 'bg-emerald-500 text-black border-emerald-500' : 'bg-transparent text-zinc-500 border-zinc-800 hover:border-zinc-700'}`}
-                  >
-                    All Types
-                  </button>
-                  {CATEGORIES.map(cat => (
-                    <button 
-                      key={cat.id}
-                      onClick={() => setSelectedCategory(cat.id)}
-                      className={`flex items-center gap-2 px-4 py-2 text-[10px] font-bold uppercase tracking-widest border transition-all ${selectedCategory === cat.id ? 'bg-emerald-500 text-black border-emerald-500' : 'bg-transparent text-zinc-500 border-zinc-800 hover:border-zinc-700'}`}
-                    >
-                      <cat.icon className="w-3 h-3" />
-                      {cat.name}
-                    </button>
-                  ))}
-                </div>
-                <div className="relative w-full md:w-64">
-                   <input 
-                      type="text" 
-                      placeholder="Search Blueprints..." 
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-sm px-4 py-2 text-xs font-mono text-zinc-300 placeholder-zinc-700 focus:outline-none focus:border-emerald-500"
-                   />
-                </div>
-              </div>
-
-              {/* Blueprint Grid */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {filteredBlueprints.length > 0 ? filteredBlueprints.map((bp) => (
-                  <motion.button
-                    layoutId={bp.id}
-                    key={bp.id}
-                    onClick={() => useBlueprint(bp)}
-                    className="group relative flex flex-col text-left p-6 bg-zinc-950 border border-zinc-900 border-b-2 border-b-zinc-800 hover:border-emerald-500/50 hover:border-b-emerald-500/50 transition-all duration-300 rounded-sm h-[200px]"
-                  >
-                    <div className="flex-1 space-y-3">
-                      <div className="flex items-center justify-between">
-                         <div className="px-2 py-0.5 bg-zinc-900 border border-zinc-800 text-[8px] font-bold uppercase tracking-[0.2em] text-zinc-500 group-hover:text-emerald-400 group-hover:border-emerald-500/30 transition-colors">
-                            {bp.category}
-                         </div>
-                         <ChevronRight className="w-4 h-4 text-zinc-800 group-hover:text-emerald-500 transition-transform group-hover:translate-x-1" />
-                      </div>
-                      <h3 className="text-lg font-bold tracking-tight text-zinc-100 group-hover:text-emerald-400 transition-colors leading-snug truncate">
-                        {bp.title}
-                      </h3>
-                      <p className="text-[11px] text-zinc-500 leading-relaxed line-clamp-3 italic">
-                         "{bp.preview}"
-                      </p>
-                    </div>
-                    <div className="mt-4 flex items-center gap-2 pt-4 border-t border-zinc-900/50">
-                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 opacity-20 group-hover:opacity-100 transition-opacity" />
-                       <span className="text-[9px] uppercase font-bold tracking-widest text-zinc-700 group-hover:text-zinc-500">Geometric Balanced</span>
-                    </div>
-                  </motion.button>
-                )) : (
-                  <div className="col-span-full py-20 text-center space-y-4">
-                      <Terminal className="w-12 h-12 text-zinc-800 mx-auto" />
-                      <p className="text-zinc-600 text-xs uppercase tracking-widest">No matching blueprints found in high-sec.</p>
-                  </div>
-                )}
-              </div>
-
-              {/* Quick Manual Access */}
-              <div className="flex items-center justify-center py-12">
-                 <button 
-                  onClick={() => {
-                    setResult({
-                      title: "Custom Workspace",
-                      enhancedPrompt: "",
-                      layoutDescription: "Manual Override",
-                      technicalSpecs: "Custom Input"
-                    });
-                    setIdea("");
-                  }}
-                  className="px-8 py-3 border border-zinc-800 text-zinc-500 text-[10px] font-bold uppercase tracking-[0.3em] hover:text-emerald-400 hover:border-emerald-500/30 transition-all rounded-full"
-                >
-                  Enter Manual Synthesis Mode
-                </button>
-              </div>
             </motion.div>
           )}
         </AnimatePresence>
       </main>
+
+      <AnimatePresence>
+        {activeImage && (
+          <motion.div
+            key="image-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setActiveImage(null)}
+            className="fixed inset-0 z-[60] bg-zinc-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.97 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-zinc-950 border border-zinc-800 rounded-sm shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]"
+            >
+              <button
+                onClick={() => setActiveImage(null)}
+                aria-label="Close"
+                className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center bg-zinc-950/70 border border-zinc-800 hover:border-emerald-500/40 hover:text-emerald-400 text-zinc-300 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <div className="w-full aspect-[16/10] bg-zinc-900 overflow-hidden">
+                <img
+                  src={activeImage.url}
+                  alt={activeImage.title}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              <div className="p-6 sm:p-8 space-y-5">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="space-y-1">
+                    <div className="text-[9px] text-emerald-400 font-bold uppercase tracking-[0.3em]">
+                      {activeImage.category}
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
+                      {activeImage.title}
+                    </h3>
+                  </div>
+                  <button
+                    onClick={() => handleCopy(activeImage.prompt, 'modal')}
+                    className="shrink-0 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 text-zinc-500 hover:text-emerald-400 transition-colors"
+                  >
+                    {copied === 'modal' ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+                    {copied === 'modal' ? 'Copied' : 'Copy Prompt'}
+                  </button>
+                </div>
+
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-2">Engineered Prompt</p>
+                  <div className="p-5 bg-zinc-900 border border-zinc-800 text-xs font-mono leading-relaxed text-zinc-300 italic">
+                    "{activeImage.prompt}"
+                  </div>
+                </div>
+
+                {'template' in activeImage && activeImage.template && (
+                  <button
+                    onClick={() => handleCopy(activeImage.template as string, 'template')}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-emerald-500/40 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/70 transition-all text-[10px] uppercase font-bold tracking-[0.25em] rounded-sm"
+                  >
+                    {copied === 'template' ? (
+                      <Check className="w-3.5 h-3.5" />
+                    ) : (
+                      <Copy className="w-3.5 h-3.5" />
+                    )}
+                    {copied === 'template' ? 'Template Copied' : 'Copy Template'}
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <footer className="max-w-7xl mx-auto px-6 py-12 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
         <p className="text-zinc-600 text-[10px] uppercase tracking-[0.2em]">
@@ -382,6 +465,8 @@ export default function App() {
           </div>
         </div>
       </footer>
+      </>
+      )}
     </div>
   );
 }
