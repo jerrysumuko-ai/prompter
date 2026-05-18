@@ -84,9 +84,15 @@ export default function App() {
              <div className="hidden sm:block px-3 py-1 bg-zinc-900 border border-zinc-800 text-[10px] uppercase tracking-tighter text-emerald-500 font-mono">
                 System: Stable
              </div>
-             <button className="bg-zinc-100 text-zinc-950 px-5 py-2 font-black uppercase tracking-widest text-[10px] hover:bg-emerald-400 transition-colors">
-                Go Pro
-             </button>
+             <div className="flex items-center gap-2 cursor-pointer group">
+               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.35)] group-hover:shadow-[0_0_18px_rgba(16,185,129,0.5)] transition-shadow">
+                 <span className="text-[11px] font-black text-zinc-950 uppercase tracking-tight select-none">A</span>
+               </div>
+               <div className="hidden sm:flex flex-col leading-none">
+                 <span className="text-[10px] font-bold text-zinc-100 uppercase tracking-widest">Alex</span>
+                 <span className="text-[9px] text-emerald-500 font-mono uppercase tracking-widest">Studio Plan</span>
+               </div>
+             </div>
           </div>
         </div>
       </header>
