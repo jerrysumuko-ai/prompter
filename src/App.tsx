@@ -3,7 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { supabase } from './lib/supabase';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Sparkles, 
@@ -45,6 +47,7 @@ export default function App() {
   const [page, setPage] = useState<Page>('studio');
   const [profileOpen, setProfileOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
   const [communityEntries, setCommunityEntries] = useState<CommunityEntry[]>(() => {
     try {
       return JSON.parse(localStorage.getItem('promptaid_community') || '[]');
@@ -60,6 +63,19 @@ export default function App() {
     }
   });
   const profileRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setUser(data.session?.user ?? null));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = useCallback(async () => {
+    await supabase.auth.signOut();
+    setProfileOpen(false);
+  }, []);
 
   type AnyGalleryImage = GalleryImage | CommunityEntry;
   const allGalleryImages: AnyGalleryImage[] = [...communityEntries, ...GALLERY_IMAGES];
@@ -165,18 +181,31 @@ export default function App() {
                 System: Stable
              </div>
              <div className="relative" ref={profileRef}>
+               {user ? (
                <button
                  onClick={() => setProfileOpen(o => !o)}
                  className="flex items-center gap-2 cursor-pointer group focus:outline-none"
                >
                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.35)] group-hover:shadow-[0_0_18px_rgba(16,185,129,0.5)] transition-shadow">
-                   <span className="text-[11px] font-black text-zinc-950 uppercase tracking-tight select-none">A</span>
+                   <span className="text-[11px] font-black text-zinc-950 uppercase tracking-tight select-none">
+                     {(user.user_metadata?.full_name as string)?.[0]?.toUpperCase() ?? user.email?.[0]?.toUpperCase() ?? 'U'}
+                   </span>
                  </div>
                  <div className="hidden sm:flex flex-col leading-none">
-                   <span className="text-[10px] font-bold text-zinc-100 uppercase tracking-widest">Alex</span>
+                   <span className="text-[10px] font-bold text-zinc-100 uppercase tracking-widest">
+                     {((user.user_metadata?.full_name as string) ?? user.email ?? 'User').split(' ')[0]}
+                   </span>
                    <span className="text-[9px] text-emerald-500 font-mono uppercase tracking-widest">Studio Plan</span>
                  </div>
                </button>
+               ) : (
+               <button
+                 onClick={() => setPage('signup')}
+                 className="flex items-center gap-2 px-3 py-1.5 border border-emerald-500/50 hover:border-emerald-400 hover:bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-widest transition-all"
+               >
+                 Sign Up
+               </button>
+               )}
 
                <AnimatePresence>
                  {profileOpen && (
@@ -190,11 +219,15 @@ export default function App() {
                      {/* Profile header */}
                      <div className="px-4 py-4 border-b border-zinc-800 flex items-center gap-3">
                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center shadow-[0_0_14px_rgba(16,185,129,0.4)] shrink-0">
-                         <span className="text-sm font-black text-zinc-950 uppercase">A</span>
+                         <span className="text-sm font-black text-zinc-950 uppercase">
+                           {(user?.user_metadata?.full_name as string)?.[0]?.toUpperCase() ?? user?.email?.[0]?.toUpperCase() ?? 'U'}
+                         </span>
                        </div>
                        <div className="flex flex-col leading-tight">
-                         <span className="text-[11px] font-bold text-zinc-100 uppercase tracking-widest">Alex Morgan</span>
-                         <span className="text-[10px] text-zinc-500 font-mono">alex@studio.io</span>
+                         <span className="text-[11px] font-bold text-zinc-100 uppercase tracking-widest">
+                           {(user?.user_metadata?.full_name as string) ?? user?.email ?? 'User'}
+                         </span>
+                         <span className="text-[10px] text-zinc-500 font-mono">{user?.email ?? ''}</span>
                          <span className="mt-1 text-[9px] text-emerald-500 font-mono uppercase tracking-widest bg-emerald-500/10 px-1.5 py-0.5 w-fit">Studio Plan</span>
                        </div>
                      </div>
@@ -239,7 +272,7 @@ export default function App() {
                      {/* Sign out */}
                      <div className="border-t border-zinc-800 py-1">
                        <button
-                         onClick={() => setProfileOpen(false)}
+                         onClick={handleSignOut}
                          className="w-full flex items-center gap-3 px-4 py-2.5 text-zinc-500 hover:text-rose-400 hover:bg-zinc-800 transition-colors group"
                        >
                          <LogOut size={13} className="group-hover:text-rose-400 transition-colors" />

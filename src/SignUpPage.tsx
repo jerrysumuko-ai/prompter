@@ -10,6 +10,7 @@ import {
   Lock,
   AlertCircle,
 } from 'lucide-react';
+import { supabase } from './lib/supabase';
 
 interface Props {
   onSignIn: () => void;
@@ -39,6 +40,7 @@ export default function SignUpPage({ onSignIn, onSuccess }: Props) {
   const [errors, setErrors] = useState<Partial<typeof form>>({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const strength = getPasswordStrength(form.password);
 
@@ -54,13 +56,21 @@ export default function SignUpPage({ onSignIn, onSuccess }: Props) {
     return e;
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setErrors({});
+    setServerError(null);
     setLoading(true);
-    setTimeout(() => { setLoading(false); setSubmitted(true); }, 1200);
+    const { error } = await supabase.auth.signUp({
+      email: form.email,
+      password: form.password,
+      options: { data: { full_name: form.name } },
+    });
+    setLoading(false);
+    if (error) { setServerError(error.message); return; }
+    setSubmitted(true);
   };
 
   const set = (k: keyof typeof form) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -237,6 +247,21 @@ export default function SignUpPage({ onSignIn, onSuccess }: Props) {
                     className={inputCls(!!errors.confirm)}
                   />
                 </Field>
+
+                {/* Server error */}
+                <AnimatePresence>
+                  {serverError && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      className="flex items-center gap-2 px-3 py-2.5 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-[10px] font-mono"
+                    >
+                      <AlertCircle size={11} className="shrink-0" />
+                      {serverError}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 {/* Terms */}
                 <p className="text-[9px] text-zinc-600 font-mono leading-relaxed pt-1">
