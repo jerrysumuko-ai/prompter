@@ -39,6 +39,7 @@ export default function SignUpPage({ onSignIn, onSuccess }: Props) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [errors, setErrors] = useState<Partial<typeof form>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [needsConfirm, setNeedsConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -63,14 +64,19 @@ export default function SignUpPage({ onSignIn, onSuccess }: Props) {
     setErrors({});
     setServerError(null);
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
       options: { data: { full_name: form.name } },
     });
-    setLoading(false);
-    if (error) { setServerError(error.message); return; }
-    setSubmitted(true);
+    if (error) { setLoading(false); setServerError(error.message); return; }
+    if (data.session) {
+      setLoading(false);
+      setSubmitted(true);
+    } else {
+      setLoading(false);
+      setNeedsConfirm(true);
+    }
   };
 
   const set = (k: keyof typeof form) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +104,7 @@ export default function SignUpPage({ onSignIn, onSuccess }: Props) {
             <div className="w-3.5 h-3.5 bg-zinc-950 rotate-45" />
           </div>
           <span className="text-base font-bold tracking-tighter uppercase group-hover:text-emerald-400 transition-colors">
-            PromptAid AI
+            Prompter
           </span>
         </button>
         <button
@@ -112,7 +118,36 @@ export default function SignUpPage({ onSignIn, onSuccess }: Props) {
       {/* Main */}
       <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-16">
         <AnimatePresence mode="wait">
-          {submitted ? (
+          {needsConfirm ? (
+            <motion.div
+              key="confirm"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex flex-col items-center gap-6 text-center max-w-sm"
+            >
+              <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+                <Mail className="text-emerald-400" size={28} />
+              </div>
+              <div className="space-y-2">
+                <h2 className="text-2xl font-bold uppercase tracking-tight">Check your email</h2>
+                <p className="text-xs text-zinc-500 font-mono leading-relaxed">
+                  We sent a confirmation link to <span className="text-emerald-400">{form.email}</span>. Click it to activate your account, then sign in.
+                </p>
+              </div>
+              <button
+                onClick={onSignIn}
+                className="w-full h-12 flex items-center justify-center gap-2 border border-zinc-700 hover:border-emerald-500/50 hover:text-emerald-400 text-zinc-300 font-black text-[11px] uppercase tracking-[0.25em] transition-colors"
+              >
+                Go to Sign In <ArrowRight size={14} />
+              </button>
+              <p className="text-[9px] text-zinc-600 font-mono">
+                Didn't get it? Check spam, or{' '}
+                <button type="button" onClick={() => setNeedsConfirm(false)} className="text-emerald-600 hover:text-emerald-400 transition-colors">
+                  try again
+                </button>.
+              </p>
+            </motion.div>
+          ) : submitted ? (
             <motion.div
               key="success"
               initial={{ opacity: 0, scale: 0.96 }}
@@ -125,7 +160,7 @@ export default function SignUpPage({ onSignIn, onSuccess }: Props) {
               <div className="space-y-2">
                 <h2 className="text-2xl font-bold uppercase tracking-tight">Welcome, {form.name.split(' ')[0]}</h2>
                 <p className="text-xs text-zinc-500 font-mono leading-relaxed">
-                  Your account has been created. You're now part of the PromptAid community.
+                  Your account has been created. You're now part of the Prompter community.
                 </p>
               </div>
               <button

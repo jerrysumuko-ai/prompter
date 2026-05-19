@@ -62,7 +62,7 @@ export default function SignInPage({ onSignUp, onSuccess }: Props) {
             <div className="w-3.5 h-3.5 bg-zinc-950 rotate-45" />
           </div>
           <span className="text-base font-bold tracking-tighter uppercase group-hover:text-emerald-400 transition-colors">
-            PromptAid AI
+            Prompter
           </span>
         </button>
         <button

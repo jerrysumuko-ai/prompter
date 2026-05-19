@@ -162,7 +162,7 @@ export default function App() {
               <div className="w-7 h-7 sm:w-8 sm:h-8 bg-emerald-500 rounded-sm rotate-45 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)]">
                 <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-zinc-950 rotate-45" />
               </div>
-              <h1 className="text-sm sm:text-xl font-bold tracking-tighter uppercase whitespace-nowrap">PromptAid AI</h1>
+              <h1 className="text-sm sm:text-xl font-bold tracking-tighter uppercase whitespace-nowrap">Prompter</h1>
             </div>
             <nav className="flex items-center gap-2 sm:gap-4 md:gap-6 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-zinc-500">
               <button
@@ -738,7 +738,7 @@ export default function App() {
 
       <footer className="max-w-7xl mx-auto px-6 py-12 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
         <p className="text-zinc-600 text-[10px] uppercase tracking-[0.2em]">
-          &copy; 2026 PromptAid AI Studio. Powered by Gemini Pro. Advanced Creative Labs.
+          &copy; 2026 Prompter Studio. Powered by Gemini Pro. Advanced Creative Labs.
         </p>
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
