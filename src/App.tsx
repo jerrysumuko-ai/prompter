@@ -155,39 +155,40 @@ export default function App() {
         />
       </div>
 
-      <header className="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-xl px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3 sm:gap-6 lg:gap-8">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-emerald-500 rounded-sm rotate-45 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-                <div className="w-4 h-4 bg-zinc-950 rotate-45" />
+      <header className="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-xl px-3 sm:px-6 py-3 sm:py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-6 lg:gap-8 min-w-0">
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-emerald-500 rounded-sm rotate-45 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+                <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-zinc-950 rotate-45" />
               </div>
-              <h1 className="text-xl font-bold tracking-tighter uppercase">PromptAid AI</h1>
+              <h1 className="text-sm sm:text-xl font-bold tracking-tighter uppercase whitespace-nowrap">PromptAid AI</h1>
             </div>
-            <nav className="flex items-center gap-3 sm:gap-4 md:gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
+            <nav className="flex items-center gap-2 sm:gap-4 md:gap-6 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-zinc-500">
               <button
                 onClick={() => { setPage('studio'); setResult(null); }}
-                className={`transition-colors ${page === 'studio' ? 'text-zinc-100 hover:text-emerald-400' : 'hover:text-zinc-100'}`}
+                className={`transition-colors whitespace-nowrap ${page === 'studio' ? 'text-zinc-100' : 'hover:text-zinc-100'}`}
               >
                 Library
               </button>
               <button
                 onClick={() => setPage('templates')}
-                className={`transition-colors ${page === 'templates' ? 'text-zinc-100 hover:text-emerald-400' : 'hover:text-zinc-100'}`}
+                className={`hidden xs:block transition-colors whitespace-nowrap ${page === 'templates' ? 'text-zinc-100' : 'hover:text-zinc-100'}`}
               >
                 Templates
               </button>
               <button
                 onClick={() => setPage('community')}
-                className={`transition-colors flex items-center gap-1.5 ${page === 'community' ? 'text-emerald-400' : 'hover:text-zinc-100'}`}
+                className={`transition-colors flex items-center gap-1 sm:gap-1.5 ${page === 'community' ? 'text-emerald-400' : 'hover:text-zinc-100'}`}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-                Add Prompt
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block shrink-0" />
+                <span className="hidden sm:inline">Add Prompt</span>
+                <span className="sm:hidden">Add</span>
               </button>
             </nav>
           </div>
-          <div className="flex items-center gap-4">
-             <div className="hidden sm:block px-3 py-1 bg-zinc-900 border border-zinc-800 text-[10px] uppercase tracking-tighter text-emerald-500 font-mono">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+             <div className="hidden md:block px-3 py-1 bg-zinc-900 border border-zinc-800 text-[10px] uppercase tracking-tighter text-emerald-500 font-mono whitespace-nowrap">
                 System: Stable
              </div>
              <div className="relative" ref={profileRef}>
@@ -196,7 +197,7 @@ export default function App() {
                  onClick={() => setProfileOpen(o => !o)}
                  className="flex items-center gap-2 cursor-pointer group focus:outline-none"
                >
-                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.35)] group-hover:shadow-[0_0_18px_rgba(16,185,129,0.5)] transition-shadow">
+                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.35)] group-hover:shadow-[0_0_18px_rgba(16,185,129,0.5)] transition-shadow shrink-0">
                    <span className="text-[11px] font-black text-zinc-950 uppercase tracking-tight select-none">
                      {(user.user_metadata?.full_name as string)?.[0]?.toUpperCase() ?? user.email?.[0]?.toUpperCase() ?? 'U'}
                    </span>
@@ -209,16 +210,16 @@ export default function App() {
                  </div>
                </button>
                ) : (
-               <div className="flex items-center gap-2">
+               <div className="flex items-center gap-1 sm:gap-2">
                  <button
                    onClick={() => setPage('signin')}
-                   className="px-3 py-1.5 text-zinc-400 hover:text-zinc-100 text-[10px] font-bold uppercase tracking-widest transition-colors"
+                   className="px-2 sm:px-3 py-1.5 text-zinc-400 hover:text-zinc-100 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest transition-colors whitespace-nowrap"
                  >
                    Sign In
                  </button>
                  <button
                    onClick={() => setPage('signup')}
-                   className="flex items-center gap-2 px-3 py-1.5 border border-emerald-500/50 hover:border-emerald-400 hover:bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-widest transition-all"
+                   className="px-2 sm:px-3 py-1.5 border border-emerald-500/50 hover:border-emerald-400 hover:bg-emerald-500/10 text-emerald-400 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest transition-all whitespace-nowrap"
                  >
                    Sign Up
                  </button>
@@ -232,7 +233,7 @@ export default function App() {
                      animate={{ opacity: 1, y: 0, scale: 1 }}
                      exit={{ opacity: 0, y: -8, scale: 0.97 }}
                      transition={{ duration: 0.15 }}
-                     className="absolute right-0 top-12 w-64 bg-zinc-900 border border-zinc-800 shadow-2xl shadow-black/60 z-50"
+                     className="absolute right-0 top-10 sm:top-12 w-[calc(100vw-1.5rem)] sm:w-64 max-w-xs bg-zinc-900 border border-zinc-800 shadow-2xl shadow-black/60 z-50"
                    >
                      {/* Profile header */}
                      <div className="px-4 py-4 border-b border-zinc-800 flex items-center gap-3">
@@ -314,7 +315,7 @@ export default function App() {
         />
       ) : (
       <>
-      <main className="max-w-7xl mx-auto px-6 py-12">
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-12">
         <AnimatePresence mode="wait">
           {result ? (
             <motion.div
@@ -522,7 +523,7 @@ export default function App() {
                   <div className="text-[9px] uppercase tracking-widest text-zinc-600 font-mono">Archive_v4.02</div>
                 </div>
                 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
                   {allGalleryImages.map((img, idx) => {
                     const isCommunity = 'isCommunity' in img;
                     return (
