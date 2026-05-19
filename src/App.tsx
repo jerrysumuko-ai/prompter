@@ -33,9 +33,10 @@ import TemplatesPage from './TemplatesPage';
 import ShareModal, { type CommunityEntry } from './ShareModal';
 import CommunityPage from './CommunityPage';
 import SignUpPage from './SignUpPage';
+import SignInPage from './SignInPage';
 
 type GalleryImage = (typeof GALLERY_IMAGES)[number];
-type Page = 'studio' | 'templates' | 'community' | 'signup';
+type Page = 'studio' | 'templates' | 'community' | 'signup' | 'signin';
 
 export default function App() {
   const [idea, setIdea] = useState('');
@@ -123,10 +124,19 @@ export default function App() {
     setIsGenerating(false);
   };
 
+  if (page === 'signin') {
+    return (
+      <SignInPage
+        onSignUp={() => setPage('signup')}
+        onSuccess={() => setPage('studio')}
+      />
+    );
+  }
+
   if (page === 'signup') {
     return (
       <SignUpPage
-        onSignIn={() => setPage('studio')}
+        onSignIn={() => setPage('signin')}
         onSuccess={() => setPage('studio')}
       />
     );
@@ -199,12 +209,20 @@ export default function App() {
                  </div>
                </button>
                ) : (
-               <button
-                 onClick={() => setPage('signup')}
-                 className="flex items-center gap-2 px-3 py-1.5 border border-emerald-500/50 hover:border-emerald-400 hover:bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-widest transition-all"
-               >
-                 Sign Up
-               </button>
+               <div className="flex items-center gap-2">
+                 <button
+                   onClick={() => setPage('signin')}
+                   className="px-3 py-1.5 text-zinc-400 hover:text-zinc-100 text-[10px] font-bold uppercase tracking-widest transition-colors"
+                 >
+                   Sign In
+                 </button>
+                 <button
+                   onClick={() => setPage('signup')}
+                   className="flex items-center gap-2 px-3 py-1.5 border border-emerald-500/50 hover:border-emerald-400 hover:bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-widest transition-all"
+                 >
+                   Sign Up
+                 </button>
+               </div>
                )}
 
                <AnimatePresence>
